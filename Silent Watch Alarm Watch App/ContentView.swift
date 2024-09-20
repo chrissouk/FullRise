@@ -8,14 +8,14 @@ import UserNotifications
 //      -> not sure yet
 
 struct ContentView: View {
-    @State private var shouldRepeat = true // State variable to control the repetition
+    @State private var alarmActive = true // State variable to control the repetition
     
     var body: some View {
         VStack {
             Button(action: {
                 requestNotificationPermission()
                 for i in 5...60 {
-                    triggerNotification(at: Date().addingTimeInterval(TimeInterval(i)))
+                    triggerNotification(interval: TimeInterval(i))
                 }
             }) {
                 Label("Set Off Alarm", systemImage: "clock")
@@ -44,28 +44,24 @@ struct ContentView: View {
         }
     }
     
-    func triggerNotification(at date: Date) {
-        guard shouldRepeat else { return } // Only trigger if repetition is allowed
-
+    func triggerNotification(interval: TimeInterval) {
+        guard alarmActive else { return } // Only trigger if repetition is allowed
+        
         let content = UNMutableNotificationContent()
         content.title = "Hello!"
-        content.body = "This is a date-based notification."
+        content.body = "This is a repeating notification."
         content.sound = .defaultCriticalSound(withAudioVolume: 1.0)
-
-        // Create date components from the provided date
-        let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-
-        // Set the notification to trigger at the specified date
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
-        let request = UNNotificationRequest(identifier: "notification_\(date.timeIntervalSince1970)", content: content, trigger: trigger)
+        // Set the notification to repeat every 5 seconds
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "repeatingNotification", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print(error.localizedDescription)
             } else {
-                print("Date-based notification scheduled")
+                print("Repeating notification scheduled")
             }
         }
     }
@@ -73,7 +69,7 @@ struct ContentView: View {
     func stopRepeatingNotification() {
         // When the condition is met, cancel the repeating notification
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["repeatingNotification"])
-        shouldRepeat = false
+        alarmActive = false
         print("Repeating notification stopped")
     }
 }
