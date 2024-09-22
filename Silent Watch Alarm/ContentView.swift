@@ -8,7 +8,6 @@
 import SwiftUI
 import UserNotifications
 import WatchConnectivity
-import Foundation
 
 struct ContentView: View {
     
@@ -17,22 +16,33 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button(action: {
-                let dict: [String : Any] = ["data": "Stop!"]
-                session.sendMessage(dict, replyHandler: nil)
+                sendStopMessage()
             }) {
                 Label("Stop Alarm", systemImage: "alarm.stop")
             }
-            .font(.headline) // Set font size (can also use .largeTitle, .title, etc.)
-            .foregroundColor(.white) // Set font color
-            .padding() // Add padding around the text
-            .frame(width: 200, height: 60) // Adjust button size
-            .background(Color.red) // Set button background color
-            .cornerRadius(25) // Rounded corners
+            .font(.headline)
+            .foregroundColor(.white)
+            .padding()
+            .frame(width: 200, height: 60)
+            .background(Color.red)
+            .cornerRadius(25)
+        }
+        .onAppear {
+            WatchSessionManager.shared // Initialize the session manager
+        }
+    }
+    
+    func sendStopMessage() {
+        let dict: [String : Any] = ["data": "Stop!"]
+        if session.isReachable {
+            session.sendMessage(dict, replyHandler: nil) { error in
+                print("Error sending message: \(error.localizedDescription)")
+            }
+        } else {
+            print("Watch is not reachable.")
         }
     }
 }
-
-
 
 #Preview {
     ContentView()

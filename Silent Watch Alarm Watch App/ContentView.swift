@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Silent Watch Alarm
+//  Silent Watch Alarm Watch App
 //
 //  Created by Chris Souk on 9/5/24.
 //
@@ -17,8 +17,6 @@ struct ContentView: View {
     @State private var showTimePicker = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var snoozeTimer: Timer?
-    
-    let session = WCSession.default
     
     var body: some View {
         VStack {
@@ -39,7 +37,6 @@ struct ContentView: View {
                 .cornerRadius(25)
             }
 
-            // Time Picker for WatchOS
             if showTimePicker {
                 DatePicker("Select Time", selection: $selectedDate, displayedComponents: [.hourAndMinute])
                     .labelsHidden()
@@ -48,12 +45,16 @@ struct ContentView: View {
                 Button("Confirm Time") {
                     alarmActive = true
                     startAlarm()
-                    showTimePicker = false // Hide time picker after selection
+                    showTimePicker = false
                 }
                 .background(Color(UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)))
                 .padding()
                 .cornerRadius(25)
             }
+        }
+        .onAppear {
+            WatchSessionManager.shared // Activate the Watch session manager
+            setupNotificationObserver() // Listen for the stop alarm message
         }
     }
     
@@ -63,15 +64,13 @@ struct ContentView: View {
         let selectedTime = Calendar.current.dateComponents([.hour, .minute], from: selectedDate)
         let currentTime = Calendar.current.dateComponents([.hour, .minute], from: currentDate)
         
-        // If the selected time is equal to the current time, trigger the alarm
         if selectedTime == currentTime {
             triggerAlarm()
         } else {
-            // Schedule a timer to check the time every second
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 let now = Calendar.current.dateComponents([.hour, .minute], from: Date())
                 if selectedTime == now {
-                    timer.invalidate() // Stop the timer
+                    timer.invalidate()
                     triggerAlarm()
                 }
             }
@@ -81,13 +80,11 @@ struct ContentView: View {
     // Trigger the alarm with sound and haptics
     func triggerAlarm() {
         playAlarmSound() // Play sound
-        triggerHaptic() // Vibrate on the Apple Watch
+        triggerHaptic() // Vibrate the Apple Watch
         
-        // Automatically snooze after 1 second
-        snoozeAlarm()
+        snoozeAlarm() // Automatically snooze after 1 second
     }
 
-    // Play custom alarm sound
     func playAlarmSound() {
         guard let soundURL = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3") else {
             print("Alarm sound file not found.")
@@ -102,28 +99,31 @@ struct ContentView: View {
         }
     }
     
-    // Trigger a haptic vibration (for Apple Watch)
     func triggerHaptic() {
         WKInterfaceDevice.current().play(.notification)
     }
     
-    // Snooze the alarm for 1 second
     func snoozeAlarm() {
-        snoozeTimer?.invalidate() // Cancel any previous snooze
+        snoozeTimer?.invalidate()
         snoozeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
             self.triggerAlarm() // Trigger the alarm again after 1 second
         }
     }
     
-    // Stop the alarm and reset everything
     func stopAlarm() {
         alarmActive = false
         snoozeTimer?.invalidate() // Stop the snooze timer
         audioPlayer?.stop() // Stop the sound
         print("Alarm stopped")
     }
-}
 
+    // Listen for the "Stop Alarm" notification from the phone
+    func setupNotificationObserver() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("StopAlarmNotification"), object: nil, queue: .main) { _ in
+            stopAlarm()
+        }
+    }
+}
 
 #Preview {
     ContentView()
