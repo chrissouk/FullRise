@@ -9,48 +9,75 @@ import SwiftUI
 import AVFoundation
 import WatchKit
 import WatchConnectivity
+import UserNotifications
 
 struct ContentView: View {
     
-    @State private var alarmActive = false
+    let session = WCSession.default
+    
+    @State private var alarmTime: Date? = nil
     @State private var selectedDate = Date()
     @State private var showTimePicker = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var snoozeTimer: Timer?
     
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
     var body: some View {
         VStack {
-            if !showTimePicker {
-                Button(action: {
-                    showTimePicker.toggle() // Toggle time picker
-                }) {
-                    Label("Set Alarm", systemImage: "clock")
-                }
-                .background(Color(UIColor(red: 0.6, green: 0.6, blue: 0.2, alpha: 1.0)))
-                .cornerRadius(25)
-                .padding()
-            }
-
-            if showTimePicker {
-                DatePicker("Select Time", selection: $selectedDate, displayedComponents: [.hourAndMinute])
-                    .labelsHidden()
+            if alarmTime != nil {
+                Text("Alarm Set for: \(alarmTime!, formatter: dateFormatter)")
+                    .font(.headline)
+                    .foregroundColor(.white)
                     .padding()
-
-                Button("Confirm Time") {
-                    alarmActive = true
-                    startAlarm()
-                    showTimePicker = false
-                }
-                .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
-                .cornerRadius(25)
-                .padding()
                 
-                Button("Cancel") {
-                    showTimePicker = false // Hide the time picker without saving
+                Button(action: {
+                    stopAlarm()
+                }) {
+                    Label("Cancel Alarm", systemImage: "")
                 }
-                .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0))) // Red background for cancel
-                .cornerRadius(25)
+                .font(.headline)
+                .foregroundColor(.white)
                 .padding()
+                .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)))
+                .cornerRadius(25)
+            } else {
+                if !showTimePicker {
+                    Button(action: {
+                        showTimePicker = true
+                    }) {
+                        Label("Set Alarm", systemImage: "clock")
+                    }
+                    .background(Color(UIColor(red: 0.6, green: 0.6, blue: 0.2, alpha: 1.0)))
+                    .cornerRadius(25)
+                    .padding()
+                }
+                
+                if showTimePicker {
+                    DatePicker("Select Time", selection: $selectedDate, displayedComponents: [.hourAndMinute])
+                        .labelsHidden()
+                        .padding()
+                    
+                    Button("Confirm Time") {
+                        setAlarm(for: selectedDate)
+                        showTimePicker = false
+                    }
+                    .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
+                    .cornerRadius(25)
+                    .padding()
+                    
+                    Button("Cancel") {
+                        showTimePicker = false // Hide the time picker without saving
+                    }
+                    .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)))
+                    .cornerRadius(25)
+                    .padding()
+                }
             }
         }
         .onAppear {
@@ -60,9 +87,11 @@ struct ContentView: View {
     }
     
     // Check if the current time matches the alarm time
-    func startAlarm() {
+    func setAlarm(for _alarmTime: Date) {
+        alarmTime = _alarmTime
+        
         let currentDate = Date()
-        let selectedTime = Calendar.current.dateComponents([.hour, .minute], from: selectedDate)
+        let selectedTime = Calendar.current.dateComponents([.hour, .minute], from: _alarmTime)
         let currentTime = Calendar.current.dateComponents([.hour, .minute], from: currentDate)
         
         if selectedTime == currentTime {
@@ -80,10 +109,12 @@ struct ContentView: View {
     
     // Trigger the alarm with sound and haptics
     func triggerAlarm() {
-        playAlarmSound() // Play sound
-        triggerHaptic() // Vibrate the Apple Watch
-        
-        snoozeAlarm() // Automatically snooze after 1 second
+        if alarmTime == Date() {
+            playAlarmSound() // Play sound
+            triggerHaptic() // Vibrate the Apple Watch
+            
+            snoozeAlarm() // Automatically snooze after 1 second
+        }
     }
 
     func playAlarmSound() {
@@ -112,7 +143,11 @@ struct ContentView: View {
     }
     
     func stopAlarm() {
-        alarmActive = false
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        center.removeAllDeliveredNotifications()
+        
+        alarmTime = nil
         snoozeTimer?.invalidate() // Stop the snooze timer
         audioPlayer?.stop() // Stop the sound
         print("Alarm stopped")
@@ -122,6 +157,34 @@ struct ContentView: View {
     func setupNotificationObserver() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("StopAlarmNotification"), object: nil, queue: .main) { _ in
             stopAlarm()
+        }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("SetAlarmNotification"), object: nil, queue: .main) { notification in
+            if let receivedTime = notification.object as? Date {
+                setAlarm(for: receivedTime)
+                print("Alarm time received and set: \(receivedTime)")
+            }
+        }
+    }
+    
+    func sendAlarmInfo() {
+        let dict: [String : Any] = ["data": "Alarm!", "time": selectedDate]
+        if session.isReachable {
+            session.sendMessage(dict, replyHandler: nil) { error in
+                print("Error sending message: \(error.localizedDescription)")
+            }
+        } else {
+            print("Phone is not reachable.")
+        }
+    }
+    
+    func sendStopMessage() {
+        let dict: [String : Any] = ["data": "Stop!"]
+        if session.isReachable {
+            session.sendMessage(dict, replyHandler: nil) { error in
+                print("Error sending message: \(error.localizedDescription)")
+            }
+        } else {
+            print("Phone is not reachable.")
         }
     }
 }

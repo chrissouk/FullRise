@@ -1,6 +1,6 @@
 //
 //  WatchSessionManager.swift
-//  Silent Watch Alarm
+//  Silent Watch Alarm Watch App
 //
 //  Created by Chris Souk on 9/21/24.
 //
@@ -31,5 +31,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         if let data = message["data"] as? String, data == "Stop!" {
             NotificationCenter.default.post(name: NSNotification.Name("StopAlarmNotification"), object: nil)
         }
+        if let data = message["data"] as? String, data == "Alarm!" {
+            NotificationCenter.default.post(name: NSNotification.Name("SetAlarmNotification"), object: message["time"] as? Date)
+        }
+
     }
+
 }
