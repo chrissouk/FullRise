@@ -35,17 +35,6 @@ struct ContentView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
-                
-                Button(action: {
-                    stopAlarm()
-                }) {
-                    Label("Cancel Alarm", systemImage: "")
-                }
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)))
-                .cornerRadius(25)
             } else {
                 if !showTimePicker {
                     Button(action: {
@@ -89,6 +78,9 @@ struct ContentView: View {
     // Check if the current time matches the alarm time
     func setAlarm(for _alarmTime: Date) {
         alarmTime = _alarmTime
+        sendAlarmInfo()
+        
+        print("alarm set for \(_alarmTime)")
         
         let currentDate = Date()
         let selectedTime = Calendar.current.dateComponents([.hour, .minute], from: _alarmTime)
