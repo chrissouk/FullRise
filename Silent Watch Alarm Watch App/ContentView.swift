@@ -23,8 +23,9 @@ struct ContentView: View {
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
+        formatter.dateStyle = .none
         formatter.timeStyle = .short
+        formatter.timeZone = TimeZone.current
         return formatter
     }()
     
@@ -54,6 +55,7 @@ struct ContentView: View {
                     
                     Button("Confirm Time") {
                         setAlarm(for: selectedDate)
+                        print(selectedDate)
                         showTimePicker = false
                     }
                     .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
@@ -87,6 +89,7 @@ struct ContentView: View {
         let currentTime = Calendar.current.dateComponents([.hour, .minute], from: currentDate)
         
         if selectedTime == currentTime {
+            print("alarm is for now")
             triggerAlarm()
         } else {
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
@@ -101,12 +104,10 @@ struct ContentView: View {
     
     // Trigger the alarm with sound and haptics
     func triggerAlarm() {
-        if alarmTime == Date() {
-            playAlarmSound() // Play sound
-            triggerHaptic() // Vibrate the Apple Watch
-            
-            snoozeAlarm() // Automatically snooze after 1 second
-        }
+        playAlarmSound() // Play sound
+        triggerHaptic() // Vibrate the Apple Watch
+        
+        snoozeAlarm() // Automatically snooze after 1 second
     }
 
     func playAlarmSound() {
