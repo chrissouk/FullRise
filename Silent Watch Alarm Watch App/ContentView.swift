@@ -5,6 +5,8 @@
 //  Created by Chris Souk on 9/5/24.
 //
 
+// TODO: consider creating a fallback; if my watch dies, trigger the alarm on my phone
+
 import SwiftUI
 import AVFoundation
 import WatchKit
@@ -16,14 +18,25 @@ struct ContentView: View {
     let session = WCSession.default
     
     @State private var alarmTime: Date? = nil
-    @State private var selectedDate = Date()
+    @State private var selectedDate: Date = {
+        if let savedDate = UserDefaults.standard.object(forKey: "selectedDate") as? Date {
+            return savedDate // Load saved date
+        } else {
+            // Default to 8 AM the next day
+            var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+            components.day! += 1 // Move to the next day
+            components.hour = 8 // Set hour to 8 AM
+            components.minute = 0 // Set minute to 0
+            return Calendar.current.date(from: components) ?? Date() // Use current date as fallback
+        }
+    }()
     @State private var showTimePicker = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var snoozeTimer: Timer?
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .none
+        formatter.dateStyle = .short
         formatter.timeStyle = .short
         formatter.timeZone = TimeZone.current
         return formatter
@@ -55,7 +68,6 @@ struct ContentView: View {
                     
                     Button("Confirm Time") {
                         setAlarm(for: selectedDate)
-                        print(selectedDate)
                         showTimePicker = false
                     }
                     .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
@@ -79,11 +91,17 @@ struct ContentView: View {
     
     // Check if the current time matches the alarm time
     func setAlarm(for _alarmTime: Date) {
+        
+        // send info to phone
         alarmTime = _alarmTime
         sendAlarmInfo()
         
+        // save selected time
+        UserDefaults.standard.set(_alarmTime, forKey: "selectedDate")
+        
         print("alarm set for \(_alarmTime)")
         
+        // schedule triggering
         let currentDate = Date()
         let selectedTime = Calendar.current.dateComponents([.hour, .minute], from: _alarmTime)
         let currentTime = Calendar.current.dateComponents([.hour, .minute], from: currentDate)

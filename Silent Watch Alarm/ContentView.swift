@@ -45,60 +45,10 @@ struct ContentView: View {
                 .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)))
                 .cornerRadius(25)
             } else {
-                if !showTimePicker {
-                    Button(action: {
-                        showTimePicker = true
-                    }) {
-                        Label("Set Alarm", systemImage: "clock")
-                    }
+                Text("Set your alarm on your watch!")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
-                    .frame(width: 200, height: 60)
-                    .background(Color(UIColor(red: 0.6, green: 0.6, blue: 0.2, alpha: 1.0)))
-                    .cornerRadius(25)
-                    
-                    Button(action: {
-                        sendStopMessage()
-                    }) {
-                        Label("Stop Alarm", systemImage: "stop")
-                    }
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 200, height: 60)
-                    .background(Color.red)
-                    .cornerRadius(25)
-                }
-                
-                if showTimePicker {
-                    DatePicker("Select Time", selection: $selectedDate, displayedComponents: [.hourAndMinute])
-                        .labelsHidden()
-                        .scaleEffect(3)
-                        .padding(40)
-                    
-                    Button("Confirm Time") {
-                        alarmTime = selectedDate // Set the alarm time
-                        sendAlarmInfo()
-                        showTimePicker = false
-                    }
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 200, height: 60)
-                    .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
-                    .cornerRadius(25)
-                    
-                    Button("Cancel") {
-                        showTimePicker = false // Hide the time picker without saving
-                    }
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 200, height: 60)
-                    .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)))
-                    .cornerRadius(25)
-                }
             }
         }
         .onAppear {
