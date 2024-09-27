@@ -67,6 +67,30 @@ struct ContentView: View {
                         .padding()
                     
                     Button("Confirm Time") {
+                        // Get the current date and time
+                        let now = Date()
+                        
+                        // Extract components from the selected date
+                        let selectedComponents = Calendar.current.dateComponents([.hour, .minute], from: selectedDate)
+                        
+                        // Create a new date with today's date but with the selected time
+                        var nextAlarmComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
+                        nextAlarmComponents.hour = selectedComponents.hour
+                        nextAlarmComponents.minute = selectedComponents.minute
+                        
+                        // Create a date for the selected time today
+                        guard let selectedTimeToday = Calendar.current.date(from: nextAlarmComponents) else { return }
+                        
+                        // Check if the selected time is in the past
+                        if selectedTimeToday < now {
+                            // If the selected time is in the past, set it for the next day
+                            nextAlarmComponents.day! += 1
+                        }
+                        
+                        // Update selectedDate with the adjusted date
+                        selectedDate = Calendar.current.date(from: nextAlarmComponents) ?? now
+                        
+                        // Now set the alarm
                         setAlarm(for: selectedDate)
                         showTimePicker = false
                     }
