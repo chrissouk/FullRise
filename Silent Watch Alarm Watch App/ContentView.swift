@@ -6,6 +6,7 @@
 //
 
 // TODO: consider creating a fallback; if my watch dies, trigger the alarm on my phone
+// TODO: set timer to go off when the alarm is supposed to, should hopefully save battery
 
 import SwiftUI
 import AVFoundation
@@ -24,7 +25,6 @@ struct ContentView: View {
         } else {
             // Default to 8 AM the next day
             var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-            components.day! += 1 // Move to the next day
             components.hour = 8 // Set hour to 8 AM
             components.minute = 0 // Set minute to 0
             return Calendar.current.date(from: components) ?? Date() // Use current date as fallback
@@ -91,7 +91,6 @@ struct ContentView: View {
     
     // Check if the current time matches the alarm time
     func setAlarm(for _alarmTime: Date) {
-        
         // send info to phone
         alarmTime = _alarmTime
         sendAlarmInfo()
@@ -99,23 +98,20 @@ struct ContentView: View {
         // save selected time
         UserDefaults.standard.set(_alarmTime, forKey: "selectedDate")
         
-        print("alarm set for \(_alarmTime)")
+        print("Alarm set for \(_alarmTime)")
         
-        // schedule triggering
+        // Calculate time interval until the alarm time
         let currentDate = Date()
-        let selectedTime = Calendar.current.dateComponents([.hour, .minute], from: _alarmTime)
-        let currentTime = Calendar.current.dateComponents([.hour, .minute], from: currentDate)
+        let timeInterval = _alarmTime.timeIntervalSince(currentDate)
         
-        if selectedTime == currentTime {
-            print("alarm is for now")
+        if timeInterval <= 0 {
+            // If the alarm time is in the past or right now, trigger the alarm immediately
+            print("Alarm is for now or in the past")
             triggerAlarm()
         } else {
-            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                let now = Calendar.current.dateComponents([.hour, .minute], from: Date())
-                if selectedTime == now {
-                    timer.invalidate()
-                    triggerAlarm()
-                }
+            // Set a timer that triggers the alarm at the exact time interval
+            Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
+                triggerAlarm()
             }
         }
     }
