@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E0B77652C8A246600B01DAF /* Silent Watch Alarm Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8E0B77642C8A246600B01DAF /* Silent Watch Alarm Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8E0B77652C8A246600B01DAF /* FullRise Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8E0B77642C8A246600B01DAF /* FullRise Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8E94CEE02CC4521900A4CE04 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E94CEDF2CC4521600A4CE04 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +28,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				8E0B77652C8A246600B01DAF /* Silent Watch Alarm Watch App.app in Embed Watch Content */,
+				8E0B77652C8A246600B01DAF /* FullRise Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -36,8 +36,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8E0B77542C8A246400B01DAF /* Silent Watch Alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Silent Watch Alarm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E0B77642C8A246600B01DAF /* Silent Watch Alarm Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Silent Watch Alarm Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0B77542C8A246400B01DAF /* FullRise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FullRise.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0B77642C8A246600B01DAF /* FullRise Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FullRise Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E94CEDF2CC4521600A4CE04 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,8 +85,8 @@
 		8E0B77552C8A246400B01DAF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8E0B77542C8A246400B01DAF /* Silent Watch Alarm.app */,
-				8E0B77642C8A246600B01DAF /* Silent Watch Alarm Watch App.app */,
+				8E0B77542C8A246400B01DAF /* FullRise.app */,
+				8E0B77642C8A246600B01DAF /* FullRise Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -94,9 +94,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8E0B77532C8A246400B01DAF /* Silent Watch Alarm */ = {
+		8E0B77532C8A246400B01DAF /* FullRise */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "Silent Watch Alarm" */;
+			buildConfigurationList = 8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise" */;
 			buildPhases = (
 				8E0B77502C8A246400B01DAF /* Sources */,
 				8E0B77512C8A246400B01DAF /* Frameworks */,
@@ -111,16 +111,16 @@
 			fileSystemSynchronizedGroups = (
 				8E0B77562C8A246400B01DAF /* Silent Watch Alarm */,
 			);
-			name = "Silent Watch Alarm";
+			name = FullRise;
 			packageProductDependencies = (
 			);
 			productName = "Silent Watch Alarm";
-			productReference = 8E0B77542C8A246400B01DAF /* Silent Watch Alarm.app */;
+			productReference = 8E0B77542C8A246400B01DAF /* FullRise.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8E0B77632C8A246600B01DAF /* Silent Watch Alarm Watch App */ = {
+		8E0B77632C8A246600B01DAF /* FullRise Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "Silent Watch Alarm Watch App" */;
+			buildConfigurationList = 8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise Watch App" */;
 			buildPhases = (
 				8E0B77602C8A246600B01DAF /* Sources */,
 				8E0B77612C8A246600B01DAF /* Frameworks */,
@@ -133,11 +133,11 @@
 			fileSystemSynchronizedGroups = (
 				8E0B77682C8A246600B01DAF /* Silent Watch Alarm Watch App */,
 			);
-			name = "Silent Watch Alarm Watch App";
+			name = "FullRise Watch App";
 			packageProductDependencies = (
 			);
 			productName = "Silent Watch Alarm Watch App";
-			productReference = 8E0B77642C8A246600B01DAF /* Silent Watch Alarm Watch App.app */;
+			productReference = 8E0B77642C8A246600B01DAF /* FullRise Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -158,7 +158,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "Silent Watch Alarm" */;
+			buildConfigurationList = 8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "FullRise" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -172,8 +172,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8E0B77532C8A246400B01DAF /* Silent Watch Alarm */,
-				8E0B77632C8A246600B01DAF /* Silent Watch Alarm Watch App */,
+				8E0B77532C8A246400B01DAF /* FullRise */,
+				8E0B77632C8A246600B01DAF /* FullRise Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -216,7 +216,7 @@
 /* Begin PBXTargetDependency section */
 		8E0B77672C8A246600B01DAF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8E0B77632C8A246600B01DAF /* Silent Watch Alarm Watch App */;
+			target = 8E0B77632C8A246600B01DAF /* FullRise Watch App */;
 			targetProxy = 8E0B77662C8A246600B01DAF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -352,7 +352,7 @@
 				INFOPLIST_FILE = "Silent-Watch-Alarm-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Silent Watch Alarm";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "chrissouk.Silent-Watch-Alarm";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.FullRise;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -387,7 +387,7 @@
 				INFOPLIST_FILE = "Silent-Watch-Alarm-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Silent Watch Alarm";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "chrissouk.Silent-Watch-Alarm";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.FullRise;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -479,7 +479,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "Silent Watch Alarm" */ = {
+		8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "FullRise" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E0B77722C8A246700B01DAF /* Debug */,
@@ -488,7 +488,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "Silent Watch Alarm Watch App" */ = {
+		8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E0B77752C8A246700B01DAF /* Debug */,
@@ -497,7 +497,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "Silent Watch Alarm" */ = {
+		8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E0B77792C8A246700B01DAF /* Debug */,

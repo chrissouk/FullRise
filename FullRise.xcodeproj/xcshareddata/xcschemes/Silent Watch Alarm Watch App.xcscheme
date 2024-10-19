@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8E0B77632C8A246600B01DAF"
-               BuildableName = "Silent Watch Alarm Watch App.app"
-               BlueprintName = "Silent Watch Alarm Watch App"
-               ReferencedContainer = "container:Silent Watch Alarm.xcodeproj">
+               BuildableName = "FullRise Watch App.app"
+               BlueprintName = "FullRise Watch App"
+               ReferencedContainer = "container:FullRise.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8E0B77532C8A246400B01DAF"
-               BuildableName = "Silent Watch Alarm.app"
-               BlueprintName = "Silent Watch Alarm"
-               ReferencedContainer = "container:Silent Watch Alarm.xcodeproj">
+               BuildableName = "FullRise.app"
+               BlueprintName = "FullRise"
+               ReferencedContainer = "container:FullRise.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -59,9 +59,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E0B77632C8A246600B01DAF"
-            BuildableName = "Silent Watch Alarm Watch App.app"
-            BlueprintName = "Silent Watch Alarm Watch App"
-            ReferencedContainer = "container:Silent Watch Alarm.xcodeproj">
+            BuildableName = "FullRise Watch App.app"
+            BlueprintName = "FullRise Watch App"
+            ReferencedContainer = "container:FullRise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E0B77632C8A246600B01DAF"
-            BuildableName = "Silent Watch Alarm Watch App.app"
-            BlueprintName = "Silent Watch Alarm Watch App"
-            ReferencedContainer = "container:Silent Watch Alarm.xcodeproj">
+            BuildableName = "FullRise Watch App.app"
+            BlueprintName = "FullRise Watch App"
+            ReferencedContainer = "container:FullRise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
