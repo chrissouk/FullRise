@@ -35,21 +35,17 @@ struct ContentView: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var snoozeTimer: Timer?
     
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        formatter.timeZone = TimeZone.current
-        return formatter
-    }()
-    
     var body: some View {
         VStack {
             if alarmTime != nil {
-                Text("Alarm Set for: \(alarmTime!, formatter: dateFormatter)")
+                // Display the time the alarm is set
+                
+                Text("Alarm Set for \(getDateIndicator(from: alarmTime!)) at \(alarmTime!, formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
             } else {
                 if !showTimePicker {
                     Button(action: {
@@ -255,6 +251,7 @@ struct ContentView: View {
             print("Phone is not reachable.")
         }
     }
+    
 }
 
 #Preview {

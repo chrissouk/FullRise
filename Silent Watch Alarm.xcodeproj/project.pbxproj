@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8E0B77652C8A246600B01DAF /* Silent Watch Alarm Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8E0B77642C8A246600B01DAF /* Silent Watch Alarm Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8E94CEE02CC4521900A4CE04 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E94CEDF2CC4521600A4CE04 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		8E0B77542C8A246400B01DAF /* Silent Watch Alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Silent Watch Alarm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0B77642C8A246600B01DAF /* Silent Watch Alarm Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Silent Watch Alarm Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E94CEDF2CC4521600A4CE04 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -73,6 +75,7 @@
 		8E0B774B2C8A246400B01DAF = {
 			isa = PBXGroup;
 			children = (
+				8E94CEDF2CC4521600A4CE04 /* Utils.swift */,
 				8E0B77562C8A246400B01DAF /* Silent Watch Alarm */,
 				8E0B77682C8A246600B01DAF /* Silent Watch Alarm Watch App */,
 				8E0B77552C8A246400B01DAF /* Products */,
@@ -197,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E94CEE02CC4521900A4CE04 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

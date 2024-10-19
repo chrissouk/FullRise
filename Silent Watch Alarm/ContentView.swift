@@ -29,10 +29,11 @@ struct ContentView: View {
     var body: some View {
         VStack {
             if alarmTime != nil {
-                Text("Alarm Set for: \(alarmTime!, formatter: dateFormatter)")
+                Text("Alarm Set for \(getDateIndicator(from: alarmTime!)) at \(alarmTime!, formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
                 
                 Button(action: {
                     alarmTime = nil
