@@ -5,6 +5,8 @@
 //  Created by Chris Souk on 9/5/24.
 //
 
+// TODO: set up an observer that will remove the cancel button only when the watch confirms the alarm has been canceled.
+
 import SwiftUI
 import UserNotifications
 import WatchConnectivity

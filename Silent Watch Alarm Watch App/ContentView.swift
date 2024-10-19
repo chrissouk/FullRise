@@ -6,7 +6,8 @@
 //
 
 // TODO: consider creating a fallback; if my watch dies, trigger the alarm on my phone
-// TODO: set timer to go off when the alarm is supposed to, should hopefully save battery
+// TODO: ensure functionality with sleep mode by adding notifications—-only they can run in the background
+// TODO: add shortcut compatibility
 
 import SwiftUI
 import AVFoundation
@@ -110,16 +111,28 @@ struct ContentView: View {
         .onAppear {
             WatchSessionManager.shared // Activate the Watch session manager
             setupNotificationObserver() // Listen for the stop alarm message
+            requestNotificationPermission() // Request permission for notifications
         }
     }
     
-    // Check if the current time matches the alarm time
+    // Request permission to show notifications
+    func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("Notification permission error: \(error)")
+            } else {
+                print("Notification permission granted: \(granted)")
+            }
+        }
+    }
+    
+    // Set up the alarm and schedule a local notification
     func setAlarm(for _alarmTime: Date) {
-        // send info to phone
+        // Send info to phone
         alarmTime = _alarmTime
         sendAlarmInfo()
         
-        // save selected time
+        // Save selected time
         UserDefaults.standard.set(_alarmTime, forKey: "selectedDate")
         
         print("Alarm set for \(_alarmTime)")
@@ -133,6 +146,8 @@ struct ContentView: View {
             print("Alarm is for now or in the past")
             triggerAlarm()
         } else {
+            // Schedule a local notification
+            scheduleNotification(at: _alarmTime)
             // Set a timer that triggers the alarm at the exact time interval
             Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
                 triggerAlarm()
@@ -182,6 +197,28 @@ struct ContentView: View {
         snoozeTimer?.invalidate() // Stop the snooze timer
         audioPlayer?.stop() // Stop the sound
         print("Alarm stopped")
+    }
+
+    // Schedule a local notification
+    func scheduleNotification(at date: Date) {
+        let content = UNMutableNotificationContent()
+        content.title = "Silent Alarm"
+        content.body = "Open to turn off!"
+        content.sound = UNNotificationSound.default
+        content.interruptionLevel = .timeSensitive
+        
+        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to schedule notification: \(error.localizedDescription)")
+            } else {
+                print("Notification scheduled for \(date)")
+            }
+        }
     }
 
     // Listen for the "Stop Alarm" notification from the phone
