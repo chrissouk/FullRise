@@ -11,6 +11,7 @@ import SwiftUI
 import UserNotifications
 import WatchConnectivity
 
+
 struct ContentView: View {
     
     @State private var alarmTime: Date? = nil
@@ -39,7 +40,7 @@ struct ContentView: View {
                     alarmTime = nil
                     sendStopMessage()
                 }) {
-                    Label("Cancel Alarm", systemImage: "alarm.slash")
+                    Label("Turn off Alarm", systemImage: "alarm.slash")
                 }
                 .font(.headline)
                 .foregroundColor(.white)
