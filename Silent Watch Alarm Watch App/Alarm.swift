@@ -53,10 +53,6 @@ class Alarm {
         self.snooze() // Automatically snooze after 1 second
     }
 
-    public static func triggerHaptic() {
-        
-    }
-
     public static func snooze() {
         self.snoozeTimer?.invalidate()
         self.snoozeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
