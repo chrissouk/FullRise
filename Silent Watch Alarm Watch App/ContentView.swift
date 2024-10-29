@@ -75,7 +75,7 @@ struct ContentView: View {
                     selectedDate = Calendar.current.date(from: nextAlarmComponents) ?? now
                     
                     // Now set the alarm
-                    setAlarm(for: selectedDate)
+                    setAlarm(for: selectedDate, session: watchConnectivitySession, selectedDate: selectedDate)
                 }
                 .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
                 .cornerRadius(25)
