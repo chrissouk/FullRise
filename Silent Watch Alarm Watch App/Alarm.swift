@@ -48,28 +48,13 @@ class Alarm {
 
     // Trigger the alarm with sound and haptics
     public static func trigger() {
-        self.playAlarmSound() // Play sound
-        self.triggerHaptic() // Vibrate the Apple Watch
+        WKInterfaceDevice.current().play(.notification)
         
         self.snooze() // Automatically snooze after 1 second
     }
 
-    public static func playAlarmSound() {
-        guard let soundURL = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3") else {
-            print("Alarm sound file not found.")
-            return
-        }
-        
-        do {
-            let audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-            audioPlayer.play()
-        } catch {
-            print("Failed to play alarm sound: \(error.localizedDescription)")
-        }
-    }
-
     public static func triggerHaptic() {
-        WKInterfaceDevice.current().play(.notification)
+        
     }
 
     public static func snooze() {
