@@ -19,7 +19,6 @@ struct ContentView: View {
     
     let watchConnectivitySession = WCSession.default
     
-    @State public static var alarmTime: Date? = nil
     @State private var selectedDate: Date = {
         if let savedDate = UserDefaults.standard.object(forKey: "selectedDate") as? Date {
             return savedDate // Load saved date
@@ -31,8 +30,6 @@ struct ContentView: View {
             return Calendar.current.date(from: components) ?? Date() // Use current date as fallback
         }
     }()
-    @State public static var audioPlayer: AVAudioPlayer?
-    @State public static var snoozeTimer: Timer?
     
     var body: some View {
         VStack {
