@@ -13,24 +13,60 @@ import WatchConnectivity
 
 class Alarm {
     
-//    public static var time: Date? = nil
-    public static var triggerTimer: Timer?
-    public static var triggerInterval: TimeInterval = 1.0
+    var time: Date? = nil
     
-    public static func set(for _time: Date) {
+    var triggerTimer: Timer?
+    var triggerInterval: TimeInterval = 1.0
+    
+    public static func getPreviousAlarmTime() -> Date {
+        if let previousAlarm = UserDefaults.standard.object(forKey: "previousAlarm") as? Date {
+            // reset previous alarm to have a date within the next 24 hours
+            let now = Date()
+            
+            // Extract components from the selected date
+            let previousAlarmComponents = Calendar.current.dateComponents([.hour, .minute], from: previousAlarm)
+            
+            // Create a new date with today's date but with the selected time
+            var nextAlarmComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
+            nextAlarmComponents.hour = previousAlarmComponents.hour
+            nextAlarmComponents.minute = previousAlarmComponents.minute
+            
+            // Create a date for the selected time today
+            let nextAlarm = Calendar.current.date(from: nextAlarmComponents)!
+            
+            // Check if the selected time is in the past
+            if nextAlarm < now {
+                // If the selected time is in the past, set it for the next day
+                nextAlarmComponents.day! += 1
+            }
+            
+            return Calendar.current.date(from: nextAlarmComponents) ?? now
+            
+        } else {
+            // Default to 8 AM the next day
+            var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+            components.hour = 8
+            components.minute = 0
+            return Calendar.current.date(from: components) ?? Date() // Fallback to current date
+        }
+    }
+    
+    func set(for _time: Date) {
         
-        // Save selected time
-        UserDefaults.standard.set(_time, forKey: "alarmTimeSelection")
+        // save time
+        time = _time
+        
+        UserDefaults.standard.set(time, forKey: "previousAlarm")
         
         print("Alarm set for \(_time)")
         
-        // Calculate time interval until the alarm time
+        // set the alarm
         let timeInterval = _time.timeIntervalSince(Date())
         
         if timeInterval <= 0 {
             // If the alarm time is in the past or right now, trigger the alarm immediately
             print("Alarm is for now or in the past")
-            self.trigger()
+            trigger()
         } else {
             // Schedule a local notification
             Notifications.schedule(for: _time)
@@ -42,21 +78,21 @@ class Alarm {
     }
 
     // Trigger the alarm with sound and haptics
-    public static func trigger() {
+    func trigger() {
         WKInterfaceDevice.current().play(.notification)
         
-        self.triggerTimer?.invalidate()
-        self.triggerTimer = Timer.scheduledTimer(withTimeInterval: self.triggerInterval, repeats: false) { _ in
+        triggerTimer?.invalidate()
+        triggerTimer = Timer.scheduledTimer(withTimeInterval: self.triggerInterval, repeats: false) { _ in
             self.trigger() // Trigger the alarm again after 1 second
         }
     }
 
-    public static func stop() {
+    func stop() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         center.removeAllDeliveredNotifications()
         
-        self.triggerTimer?.invalidate() // Stop the snooze timer
+        triggerTimer?.invalidate() // Stop the snooze timer
         print("Alarm stopped")
     }
 }

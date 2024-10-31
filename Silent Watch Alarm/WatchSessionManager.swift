@@ -10,7 +10,7 @@ import WatchConnectivity
 class WatchSessionManager: NSObject, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
-        print("phone WCSession activationDidCompleteWith: \(activationState)")
+        print("set up the session from the phone")
     }
 
     func setupWCSession() {
@@ -22,11 +22,11 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        if let data = message["data"] as? String, data == "Stop!" {
+        if let data = message["subject"] as? String, data == "Stop!" {
             NotificationCenter.default.post(name: NSNotification.Name("StopAlarmNotification"), object: nil)
         }
-        if let data = message["data"] as? String, data == "Alarm!" {
-            NotificationCenter.default.post(name: NSNotification.Name("SetAlarmNotification"), object: message["time"] as? Date)
+        if let data = message["subject"] as? String, data == "Alarm!" {
+            NotificationCenter.default.post(name: NSNotification.Name("SetAlarmNotification"), object: message["content"] as? Date)
         }
 
     }

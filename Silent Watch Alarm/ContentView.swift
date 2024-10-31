@@ -58,7 +58,6 @@ struct ContentView: View {
         }
         .onAppear {
             WCSession.default.activate()
-            watchSessionManager.setupWCSession() // Initialize the session manager
             setupNotificationObserver()
         }
     }

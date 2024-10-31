@@ -13,7 +13,7 @@ class CommunicationHandler: NSObject, WCSessionDelegate {
     let session = WCSession.default
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
-        print("WCSession activationDidCompleteWith activationState: \(activationState)")
+        print("set up the session from the watch")
     }
 
     func setupWCSession() {
@@ -26,11 +26,11 @@ class CommunicationHandler: NSObject, WCSessionDelegate {
     // Listen for the "Stop Alarm" notification from the phone
     func setupObserver() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("StopAlarmNotification"), object: nil, queue: .main) { _ in
-            Alarm.stop()
+            ContentView.alarm.stop()
         }
         NotificationCenter.default.addObserver(forName: NSNotification.Name("SetAlarmNotification"), object: nil, queue: .main) { notification in
             if let receivedTime = notification.object as? Date {
-                Alarm.set(for: receivedTime)
+                ContentView.alarm.set(for: receivedTime)
                 print("Alarm time received and set: \(receivedTime)")
             }
         }
