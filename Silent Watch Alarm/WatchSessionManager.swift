@@ -8,18 +8,12 @@
 import WatchConnectivity
 
 class WatchSessionManager: NSObject, WCSessionDelegate {
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
-        
-    }
     
-    static let shared = WatchSessionManager()
-
-    private override init() {
-        super.init()
-        setupWCSession()
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
+        print("phone WCSession activationDidCompleteWith: \(activationState)")
     }
 
-    private func setupWCSession() {
+    func setupWCSession() {
         if WCSession.isSupported() {
             let session = WCSession.default
             session.delegate = self

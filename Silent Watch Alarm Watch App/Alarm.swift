@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import AVFAudio
 import WatchKit
 import UserNotifications
 import WatchConnectivity
@@ -14,22 +13,18 @@ import WatchConnectivity
 
 class Alarm {
     
-    public static var time: Date? = nil
-    public static var snoozeTimer: Timer?
-    public static var audioPlayer: AVAudioPlayer?
+//    public static var time: Date? = nil
+    public static var triggerTimer: Timer?
+    public static var triggerInterval: TimeInterval = 1.0
     
-    public static func set(for _time: Date, session: WCSession, selectedDate: Date) {
-        // Send info to phone
-        time = _time
-        sendAlarmInfo(session: session, selectedDate: selectedDate)
+    public static func set(for _time: Date) {
         
         // Save selected time
-        UserDefaults.standard.set(_time, forKey: "selectedDate")
+        UserDefaults.standard.set(_time, forKey: "alarmTimeSelection")
         
         print("Alarm set for \(_time)")
         
         // Calculate time interval until the alarm time
-        let currentDate = Date()
         let timeInterval = _time.timeIntervalSince(Date())
         
         if timeInterval <= 0 {
@@ -38,7 +33,7 @@ class Alarm {
             self.trigger()
         } else {
             // Schedule a local notification
-            scheduleNotification(at: _time)
+            Notifications.schedule(for: _time)
             // Set a timer that triggers the alarm at the exact time interval
             Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
                 self.trigger()
@@ -50,12 +45,8 @@ class Alarm {
     public static func trigger() {
         WKInterfaceDevice.current().play(.notification)
         
-        self.snooze() // Automatically snooze after 1 second
-    }
-
-    public static func snooze() {
-        self.snoozeTimer?.invalidate()
-        self.snoozeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+        self.triggerTimer?.invalidate()
+        self.triggerTimer = Timer.scheduledTimer(withTimeInterval: self.triggerInterval, repeats: false) { _ in
             self.trigger() // Trigger the alarm again after 1 second
         }
     }
@@ -65,9 +56,7 @@ class Alarm {
         center.removeAllPendingNotificationRequests()
         center.removeAllDeliveredNotifications()
         
-        self.time = nil
-        self.snoozeTimer?.invalidate() // Stop the snooze timer
-        self.audioPlayer?.stop() // Stop the sound
+        self.triggerTimer?.invalidate() // Stop the snooze timer
         print("Alarm stopped")
     }
 }

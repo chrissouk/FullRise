@@ -17,10 +17,11 @@ import UserNotifications
 
 struct ContentView: View {
     
-    let watchConnectivitySession = WCSession.default
+    @State public static var alarmTime: Date?
+    @State public static var communicationHandler = CommunicationHandler()
     
-    @State private var selectedDate: Date = {
-        if let savedDate = UserDefaults.standard.object(forKey: "selectedDate") as? Date {
+    @State private var alarmTimeSelection: Date = {
+        if let savedDate = UserDefaults.standard.object(forKey: "alarmTimeSelection") as? Date {
             return savedDate // Load saved date
         } else {
             // Default to 8 AM the next day
@@ -35,15 +36,15 @@ struct ContentView: View {
         VStack {
             if ContentView.alarmTime != nil {
                 // Display the time the alarm is set
-                
                 Text("Alarm Set for \(getDateIndicator(from: ContentView.alarmTime!)) at \(ContentView.alarmTime!, formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
+                    .multilineTextAlignment(.center)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
                 
             } else {
-                DatePicker("Select Time", selection: $selectedDate, displayedComponents: [.hourAndMinute])
+                DatePicker("Select Time", selection: $alarmTimeSelection, displayedComponents: [.hourAndMinute])
                     .labelsHidden()
                     .padding()
                 
@@ -52,7 +53,7 @@ struct ContentView: View {
                     let now = Date()
                     
                     // Extract components from the selected date
-                    let selectedComponents = Calendar.current.dateComponents([.hour, .minute], from: selectedDate)
+                    let selectedComponents = Calendar.current.dateComponents([.hour, .minute], from: alarmTimeSelection)
                     
                     // Create a new date with today's date but with the selected time
                     var nextAlarmComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
@@ -68,11 +69,13 @@ struct ContentView: View {
                         nextAlarmComponents.day! += 1
                     }
                     
-                    // Update selectedDate with the adjusted date
-                    selectedDate = Calendar.current.date(from: nextAlarmComponents) ?? now
+                    // Update alarmTimeSelection with the adjusted date
+                    alarmTimeSelection = Calendar.current.date(from: nextAlarmComponents) ?? now
                     
                     // Now set the alarm
-                    setAlarm(for: selectedDate, session: watchConnectivitySession, selectedDate: selectedDate)
+                    ContentView.alarmTime = alarmTimeSelection
+                    ContentView.communicationHandler.sendMessage(subject: "alarm!", contents: alarmTimeSelection)
+                    Alarm.set(for: alarmTimeSelection)
                 }
                 .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
                 .cornerRadius(25)
@@ -81,9 +84,9 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            WatchSessionManager.shared // Activate the Watch watchConnectivitySession manager
-            setupNotificationObserver() // Listen for the stop alarm message
-            requestNotificationPermission() // Request permission for notifications
+            ContentView.communicationHandler.setupWCSession() // Activate the Watch watchConnectivitySession manager
+            ContentView.communicationHandler.setupObserver() // Listen for the stop alarm message
+            Notifications.requestPermission() // Request permission for notifications
         }
     }
     

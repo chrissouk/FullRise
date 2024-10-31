@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var alarmTime: Date? = nil
     @State private var showTimePicker = false
     @State private var selectedDate = Date()
+    @State private var watchSessionManager = WatchSessionManager()
     
     let session = WCSession.default
     
@@ -57,7 +58,7 @@ struct ContentView: View {
         }
         .onAppear {
             WCSession.default.activate()
-            WatchSessionManager.shared // Initialize the session manager
+            watchSessionManager.setupWCSession() // Initialize the session manager
             setupNotificationObserver()
         }
     }
