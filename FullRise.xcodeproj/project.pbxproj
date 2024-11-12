@@ -348,7 +348,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Silent-Watch-Alarm-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Silent Watch Alarm";
+				INFOPLIST_KEY_CFBundleDisplayName = FullRise;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.FullRise;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
@@ -383,7 +383,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Silent-Watch-Alarm-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Silent Watch Alarm";
+				INFOPLIST_KEY_CFBundleDisplayName = FullRise;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.FullRise;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
