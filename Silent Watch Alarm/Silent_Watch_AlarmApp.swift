@@ -11,7 +11,7 @@ import SwiftUI
 struct Silent_Watch_AlarmApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PhoneView()
         }
     }
 }

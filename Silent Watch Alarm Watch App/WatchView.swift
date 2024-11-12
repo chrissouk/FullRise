@@ -1,9 +1,10 @@
 //
-//  ContentView.swift
-//  Silent Watch Alarm Watch App
+//  WatchView.swift
+//  FullRise
 //
-//  Created by Chris Souk on 9/5/24.
+//  Created by Chris Souk on 11/9/24.
 //
+
 
 // TODO: consider creating a fallback; if my watch dies, trigger the alarm on my phone
 // TODO: ensure functionality with sleep mode by adding notifications—-only they can run in the background
@@ -17,13 +18,13 @@ import WatchKit
 import WatchConnectivity
 import UserNotifications
 
-struct ContentView: View {
+struct WatchView: View {
     
     @State public static var alarm: Alarm = Alarm()
     @State private var displayedTime: Date = Alarm.getPreviousAlarmTime()
     @State private var alarmIsSet: Bool = false
     
-    @State public static var communicationHandler = CommunicationHandler()
+    @State private var communicationHandler = CommunicationHandler()
     
     var body: some View {
         VStack {
@@ -34,7 +35,7 @@ struct ContentView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .center) 
                 
             } else {
                 DatePicker("Select Time", selection: $displayedTime, displayedComponents: [.hourAndMinute])
@@ -43,9 +44,10 @@ struct ContentView: View {
                     .padding()
                 
                 Button("Confirm Time") {
-                    ContentView.alarm.set(for: displayedTime)
-                    ContentView.communicationHandler.sendMessage(subject: "Alarm!", contents: displayedTime)
-                    alarmIsSet = true
+                    WatchView.alarm.set(for: displayedTime)
+//                    communicationHandler.sendMessage(subject: "Alarm!", contents: displayedTime)
+                    communicationHandler.sendAlarmTime(displayedTime)
+//                    alarmIsSet = true
                 }
                 .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
                 .cornerRadius(25)
@@ -54,8 +56,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            ContentView.communicationHandler.setupWCSession() // Activate the Watch watchConnectivitySession manager
-            ContentView.communicationHandler.setupObserver() // Listen for the stop alarm message
+            communicationHandler.setupWCSession() // Activate the Watch watchConnectivitySession manager
             Notifications.requestPermission() // Request permission for notifications
         }
     }
@@ -80,5 +81,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    WatchView()
 }
