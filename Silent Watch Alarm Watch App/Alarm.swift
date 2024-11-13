@@ -11,9 +11,9 @@ import UserNotifications
 import WatchConnectivity
 
 
-class Alarm {
+class Alarm: ObservableObject {
     
-    var time: Date? = nil
+    @Published var time: Date? = nil
     
     var triggerTimer: Timer?
     var triggerInterval: TimeInterval = 1.0

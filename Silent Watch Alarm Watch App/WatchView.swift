@@ -20,17 +20,16 @@ import UserNotifications
 
 struct WatchView: View {
     
-    @State public static var alarm: Alarm = Alarm()
-    @State private var displayedTime: Date = Alarm.getPreviousAlarmTime()
-    @State private var alarmIsSet: Bool = false
+    @StateObject private var alarm: Alarm = Alarm()
+    @State private var selectedTime: Date = Alarm.getPreviousAlarmTime()
     
-    @State private var communicationHandler = CommunicationHandler()
+    @StateObject private var phoneCommunicator = PhoneCommunicator()
     
     var body: some View {
         VStack {
-            if alarmIsSet {
+            if phoneCommunicator.isAlarmSet {
                 // Display the time the alarm is set
-                Text("Alarm Set for \(getDateIndicator(from: displayedTime)) at \(displayedTime, formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
+                Text("Alarm Set for \(getDateIndicator(from: selectedTime)) at \(selectedTime, formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
                     .multilineTextAlignment(.center)
                     .font(.headline)
                     .foregroundColor(.white)
@@ -38,16 +37,15 @@ struct WatchView: View {
                     .frame(maxWidth: .infinity, alignment: .center) 
                 
             } else {
-                DatePicker("Select Time", selection: $displayedTime, displayedComponents: [.hourAndMinute])
+                DatePicker("Select Time", selection: $selectedTime, displayedComponents: [.hourAndMinute])
                     .datePickerStyle(.wheel)
                     .labelsHidden()
                     .padding()
                 
                 Button("Confirm Time") {
-                    WatchView.alarm.set(for: displayedTime)
-//                    communicationHandler.sendMessage(subject: "Alarm!", contents: displayedTime)
-                    communicationHandler.sendAlarmTime(displayedTime)
-//                    alarmIsSet = true
+                    print("Confirm Time pressed")
+                    alarm.set(for: selectedTime)
+                    phoneCommunicator.sendAlarmTime(selectedTime)
                 }
                 .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
                 .cornerRadius(25)
@@ -56,26 +54,12 @@ struct WatchView: View {
             }
         }
         .onAppear {
-            communicationHandler.setupWCSession() // Activate the Watch watchConnectivitySession manager
+            phoneCommunicator.setupWCSession() // Activate the Watch watchConnectivitySession manager
+            if alarm.time != nil {
+                phoneCommunicator.sendAlarmTime(alarm.time!)
+            }
             Notifications.requestPermission() // Request permission for notifications
         }
-    }
-    
-    func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-        // Track when your session starts.
-        print("session started!")
-    }
-
-
-    func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-        // Finish and clean up any tasks before the session ends.
-        print("session will expire!")
-    }
-        
-    func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: Error?) {
-        // Track when your session ends.
-        // Also handle errors here.
-        print("session invalidated!")
     }
     
 }
