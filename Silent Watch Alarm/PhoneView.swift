@@ -21,7 +21,7 @@ struct PhoneView: View {
     
     var body: some View {
         VStack {
-            if watchCommunicator.isAlarmSet {
+            if watchCommunicator.displayTime != "" {
                 Text("Alarm Set for \(watchCommunicator.displayTime)")
                     .font(.headline)
                     .foregroundColor(.white)
