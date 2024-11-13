@@ -45,7 +45,7 @@ struct WatchView: View {
                 Button("Confirm Time") {
                     print("Confirm Time pressed")
                     alarm.set(for: selectedTime)
-                    phoneCommunicator.sendAlarmTime(selectedTime)
+                    phoneCommunicator.setAlarmTime(selectedTime)
                 }
                 .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
                 .cornerRadius(25)
@@ -56,7 +56,7 @@ struct WatchView: View {
         .onAppear {
             phoneCommunicator.setupWCSession() // Activate the Watch watchConnectivitySession manager
             if alarm.time != nil {
-                phoneCommunicator.sendAlarmTime(alarm.time!)
+                phoneCommunicator.setAlarmTime(alarm.time!)
             }
             Notifications.requestPermission() // Request permission for notifications
         }

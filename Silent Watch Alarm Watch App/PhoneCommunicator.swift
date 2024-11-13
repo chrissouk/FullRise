@@ -51,7 +51,9 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
-    func sendAlarmTime(_ time: Date) {
+    func setAlarmTime(_ time: Date) {
+        self.isAlarmSet = true
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         let alarmTimeString = dateFormatter.string(from: time)
