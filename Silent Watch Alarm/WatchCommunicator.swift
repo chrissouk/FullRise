@@ -27,37 +27,41 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
         DispatchQueue.main.async {
             self.displayTime = (applicationContext["alarmTime"] as? String) ?? ""
+            self.isAlarmSet = (applicationContext["isAlarmSet"] as? Bool) ?? false
+            
             print("displayTime: \((applicationContext["alarmTime"] as? String) ?? "")")
             
-            if self.displayTime != "" {
-                self.isAlarmSet = true
-                
-                // confirm alarm has been set
-                let alarmStateDict = ["isAlarmSet" : true]
-                do {
-                    try session.updateApplicationContext(alarmStateDict)
-                    print("Updated application context: \(alarmStateDict)")
-                } catch {
-                    print("Error updating application context: \(error)")
-                }
-                
-                // save the alarm state so it doesn't disappear
-                self.saveAlarmState()
-            }
+            self.saveAlarmState()
+            
+//            if self.displayTime != "" {
+//                self.isAlarmSet = true
+//                
+//                // confirm alarm has been set
+//                let alarmStateDict = ["isAlarmSet" : true]
+//                do {
+//                    try session.updateApplicationContext(alarmStateDict)
+//                    print("Updated application context: \(alarmStateDict)")
+//                } catch {
+//                    print("Error updating application context: \(error)")
+//                }
+//                
+//                // save the alarm state so it doesn't disappear
+//                self.saveAlarmState()
+//            }
         }
         
     }
     
     func stopAlarm() {
-        let stopAlarmDict: [String: Any] = ["alarmTime": ""]
+        let context: [String: Any] = ["alarmTime": "", "isAlarmSet": true] /* don't change isAlarmSet yet, wait for watch's confirmation */
         do {
-            try session.updateApplicationContext(stopAlarmDict)
+            try session.updateApplicationContext(context)
             print("Updated application context: \(session.applicationContext)")
         } catch {
             print("Error updating application context: \(error)")
         }
         
-        saveAlarmState()
+//        saveAlarmState()
     }
 
     func setupWCSession() {

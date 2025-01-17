@@ -24,7 +24,7 @@ struct PhoneView: View {
             if watchCommunicator.displayTime != "" {
                 Text("Alarm Set for \(watchCommunicator.displayTime)")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
                 
@@ -42,7 +42,7 @@ struct PhoneView: View {
             } else {
                 Text("Set your alarm on your watch!")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                     .padding()
             }
             Button(action: {

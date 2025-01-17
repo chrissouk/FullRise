@@ -32,10 +32,10 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
                 self.isAlarmSet = false
                 
                 // confirm alarm has been stopped
-                let alarmStateDict = ["isAlarmSet" : false]
+                let context = ["alarmTime:": "", "isAlarmSet": false]
                 do {
-                    try session.updateApplicationContext(alarmStateDict)
-                    print("Updated application context: \(alarmStateDict)")
+                    try session.updateApplicationContext(context)
+                    print("Updated application context: \(context)")
                 } catch {
                     print("Error updating application context: \(error)")
                 }
@@ -52,6 +52,12 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     func setAlarmTime(_ time: Date) {
+        
+        guard session.isReachable else {
+            print("Session is not reachable; cannot send alarm time.")
+            return
+        }
+        
         self.isAlarmSet = true
         
         let dateFormatter = DateFormatter()
@@ -60,7 +66,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
         self.displayTime = alarmTimeString
 
-        let alarmTimeDict: [String: Any] = ["alarmTime": alarmTimeString]
+        let alarmTimeDict: [String: Any] = ["alarmTime": alarmTimeString, "isAlarmSet": true]
         print("set alarmTimeDict: \(alarmTimeDict)")
         do {
             try session.updateApplicationContext(alarmTimeDict)
