@@ -16,7 +16,7 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
        
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
         if activationState == .activated {
-            restoreAlarmState()
+//            restoreAlarmState()
             print("Phone's application context: \(session.applicationContext)")
         }
     }
@@ -31,7 +31,7 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
             
             print("displayTime: \((applicationContext["alarmTime"] as? String) ?? "")")
             
-            self.saveAlarmState()
+//            self.saveAlarmState()
             
 //            if self.displayTime != "" {
 //                self.isAlarmSet = true
@@ -53,7 +53,7 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     func stopAlarm() {
-        let context: [String: Any] = ["alarmTime": "", "isAlarmSet": true] /* don't change isAlarmSet yet, wait for watch's confirmation */
+        let context: [String: Any] = ["alarmTime": "", "isAlarmSet": true, "timestamp": Date()] /* don't change isAlarmSet yet, wait for watch's confirmation */
         do {
             try session.updateApplicationContext(context)
             print("Updated application context: \(session.applicationContext)")
@@ -93,14 +93,14 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     // Save the alarm state when the session becomes inactive
     func sessionDidBecomeInactive(_ session: WCSession) {
         WCSession.default.activate()
-        saveAlarmState()
+//        saveAlarmState()
         print("Session became inactive, alarm state saved.")
     }
 
     // Save the alarm state when the session is deactivated
     func sessionDidDeactivate(_ session: WCSession) {
         WCSession.default.activate()
-        saveAlarmState()
+//        saveAlarmState()
         print("Session deactivated, alarm state saved.")
     }
     
@@ -113,7 +113,8 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
         // Optionally, you can reset the session's application context as well.
         do {
-            try session.updateApplicationContext(["alarmTime": "", "isAlarmSet": false])
+            let context = ["alarmTime": "", "isAlarmSet": false, "timestamp": Date()] as [String : Any]
+            try session.updateApplicationContext(context)
             print("Cleared alarm state and updated application context.")
         } catch {
             print("Error clearing application context: \(error.localizedDescription)")

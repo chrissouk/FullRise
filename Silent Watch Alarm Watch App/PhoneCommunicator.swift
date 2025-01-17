@@ -26,13 +26,13 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         print("Received application context: \(applicationContext)")
         
         DispatchQueue.main.async {
-            self.displayTime = (applicationContext["alarmTime"] as? String) ?? ""
+            self.displayTime = ""
             
             if self.displayTime == "" {
                 self.isAlarmSet = false
                 
                 // confirm alarm has been stopped
-                let context = ["alarmTime:": "", "isAlarmSet": false]
+                let context = ["alarmTime:": "", "isAlarmSet": false, "timestamp": Date()]
                 do {
                     try session.updateApplicationContext(context)
                     print("Updated application context: \(context)")
@@ -66,10 +66,10 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
         self.displayTime = alarmTimeString
 
-        let alarmTimeDict: [String: Any] = ["alarmTime": alarmTimeString, "isAlarmSet": true]
-        print("set alarmTimeDict: \(alarmTimeDict)")
+        let context: [String: Any] = ["alarmTime": alarmTimeString, "isAlarmSet": true, "timestamp": Date()]
+        print("set alarmTimeDict: \(context)")
         do {
-            try session.updateApplicationContext(alarmTimeDict)
+            try session.updateApplicationContext(context)
             print("Application Context Updated: \(session.applicationContext)")
         } catch {
             print("Error updating application context: \(error.localizedDescription)")
