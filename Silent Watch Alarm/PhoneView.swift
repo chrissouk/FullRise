@@ -45,17 +45,17 @@ struct PhoneView: View {
                     .foregroundColor(.primary)
                     .padding()
             }
-            Button(action: {
-                watchCommunicator.clearAlarmState()
-            }) {
-                Label("Clear alarm state", systemImage: "xmark.circle.fill")
-            }
-            .font(.headline)
-            .foregroundColor(.white)
-            .padding()
-            .frame(width: 200, height: 60)
-            .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)))
-            .cornerRadius(25)
+//            Button(action: {
+//                watchCommunicator.clearAlarmState()
+//            }) {
+//                Label("Clear alarm state", systemImage: "xmark.circle.fill")
+//            }
+//            .font(.headline)
+//            .foregroundColor(.white)
+//            .padding()
+//            .frame(width: 200, height: 60)
+//            .background(Color(UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0)))
+//            .cornerRadius(25)
         }
         .onAppear {
             WCSession.default.activate()
