@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8E0B77652C8A246600B01DAF /* FullRise Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8E0B77642C8A246600B01DAF /* FullRise Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		8E431A5B2CEA8A4E00D7A3B8 /* Hemingway Bridge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E431A5A2CEA8A4300D7A3B8 /* Hemingway Bridge.txt */; };
+		8E23E48F2D794E1700A1E958 /* Hemingway Bridge.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E23E48E2D794E0F00A1E958 /* Hemingway Bridge.txt */; };
 		8E4BEF502D38377900966090 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 8E4BEF4F2D38377500966090 /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -39,7 +39,7 @@
 /* Begin PBXFileReference section */
 		8E0B77542C8A246400B01DAF /* FullRise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FullRise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0B77642C8A246600B01DAF /* FullRise Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FullRise Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E431A5A2CEA8A4300D7A3B8 /* Hemingway Bridge.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Hemingway Bridge.txt"; sourceTree = "<group>"; };
+		8E23E48E2D794E0F00A1E958 /* Hemingway Bridge.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Hemingway Bridge.txt"; sourceTree = "<group>"; };
 		8E4BEF4F2D38377500966090 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,7 +77,7 @@
 		8E0B774B2C8A246400B01DAF = {
 			isa = PBXGroup;
 			children = (
-				8E431A5A2CEA8A4300D7A3B8 /* Hemingway Bridge.txt */,
+				8E23E48E2D794E0F00A1E958 /* Hemingway Bridge.txt */,
 				8E4BEF4F2D38377500966090 /* .gitignore */,
 				8E0B77562C8A246400B01DAF /* Silent Watch Alarm */,
 				8E0B77682C8A246600B01DAF /* Silent Watch Alarm Watch App */,
@@ -186,8 +186,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E23E48F2D794E1700A1E958 /* Hemingway Bridge.txt in Resources */,
 				8E4BEF502D38377900966090 /* .gitignore in Resources */,
-				8E431A5B2CEA8A4E00D7A3B8 /* Hemingway Bridge.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
