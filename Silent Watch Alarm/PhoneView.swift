@@ -27,6 +27,11 @@ struct PhoneView: View {
                     .foregroundColor(.primary)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
+                Text("Ensure watch app is open when disabling alarm")
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
                 
                 Button(action: {
                     watchCommunicator.stopAlarm()
@@ -44,6 +49,7 @@ struct PhoneView: View {
                     .font(.headline)
                     .foregroundColor(.primary)
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
 //            Button(action: {
 //                watchCommunicator.clearAlarmState()
