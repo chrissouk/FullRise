@@ -32,7 +32,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
                 self.isAlarmSet = false
                 
                 // confirm alarm has been stopped
-                let context = ["alarmTime:": "", "isAlarmSet": false, "timestamp": Date()]
+                let context = ["alarmTime:": "", "isAlarmSet": false, "timestamp": Date().timeIntervalSince1970]
                 do {
                     try session.updateApplicationContext(context)
                     print("Updated application context: \(context)")
@@ -66,7 +66,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
         self.displayTime = alarmTimeString
 
-        let context: [String: Any] = ["alarmTime": alarmTimeString, "isAlarmSet": true, "timestamp": Date()]
+        let context: [String: Any] = ["alarmTime": alarmTimeString, "isAlarmSet": true, "timestamp": Date().timeIntervalSince1970]
         print("set alarmTimeDict: \(context)")
         do {
             try session.updateApplicationContext(context)

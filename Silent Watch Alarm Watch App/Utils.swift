@@ -7,14 +7,6 @@
 
 import Foundation
 
-public func isDateTomorrow(_ date: Date) -> Bool {
-    return Calendar.current.isDateInTomorrow(date)
-}
-
-public func isDateToday(_ date: Date) -> Bool {
-    return Calendar.current.isDateInToday(date)
-}
-
 public func customDateFormatter(dateStyle: DateFormatter.Style, timeStyle: DateFormatter.Style) -> DateFormatter {
     let formatter = DateFormatter()
     formatter.dateStyle = dateStyle
@@ -26,9 +18,9 @@ public func customDateFormatter(dateStyle: DateFormatter.Style, timeStyle: DateF
 public func getDateIndicator(from alarmTime: Date) -> String {
     var dateIndicator: String = ""
     
-    if isDateTomorrow(alarmTime) {
+    if Calendar.current.isDateInTomorrow(alarmTime) {
         dateIndicator = "Tomorrow"
-    } else if isDateToday(alarmTime) {
+    } else if Calendar.current.isDateInToday(alarmTime) {
         dateIndicator = "Today"
     } else {
         dateIndicator = customDateFormatter(dateStyle: .short, timeStyle: .none).string(from: alarmTime)

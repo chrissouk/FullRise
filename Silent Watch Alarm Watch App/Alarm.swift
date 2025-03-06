@@ -11,7 +11,28 @@ import UserNotifications
 import WatchConnectivity
 
 
-class Alarm: ObservableObject {
+class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
+    
+    var session: WKExtendedRuntimeSession?
+
+    func startSession() {
+        session = WKExtendedRuntimeSession()
+        session?.delegate = self
+        session?.start()
+    }
+    
+    func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: (any Error)?) {
+        print("Session invalidated with reason: \(reason)")
+    }
+    
+    func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
+        print("Session started")
+    }
+    
+    func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
+        print("Session will expire")
+    }
+    
     
     @Published var time: Date? = nil
     
@@ -22,23 +43,25 @@ class Alarm: ObservableObject {
         if let previousAlarm = UserDefaults.standard.object(forKey: "previousAlarm") as? Date {
             // reset previous alarm to have a date within the next 24 hours
             let now = Date()
-            
+            print("Now: \(now)")
             // Extract components from the selected date
             let previousAlarmComponents = Calendar.current.dateComponents([.hour, .minute], from: previousAlarm)
-            
+            print(previousAlarmComponents)
             // Create a new date with today's date but with the selected time
             var nextAlarmComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
             nextAlarmComponents.hour = previousAlarmComponents.hour
             nextAlarmComponents.minute = previousAlarmComponents.minute
-            
+            print(nextAlarmComponents)
             // Create a date for the selected time today
-            let nextAlarm = Calendar.current.date(from: nextAlarmComponents)!
-            
+            let nextAlarmComparisonTime = Calendar.current.date(from: nextAlarmComponents)!
+            print(nextAlarmComparisonTime)
             // Check if the selected time is in the past
-            if nextAlarm < now {
+            if nextAlarmComparisonTime < now {
                 // If the selected time is in the past, set it for the next day
                 nextAlarmComponents.day! += 1
             }
+            
+            print(Calendar.current.date(from: nextAlarmComponents) ?? now)
             
             return Calendar.current.date(from: nextAlarmComponents) ?? now
             
@@ -56,7 +79,7 @@ class Alarm: ObservableObject {
         // save time
         time = _time
         
-        UserDefaults.standard.set(time, forKey: "previousAlarm")
+        UserDefaults.standard.set(_time, forKey: "previousAlarm")
         
         print("Alarm set for \(_time)")
         

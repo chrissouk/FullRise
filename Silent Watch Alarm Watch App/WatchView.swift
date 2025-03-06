@@ -34,7 +34,10 @@ struct WatchView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
-                    .frame(maxWidth: .infinity, alignment: .center) 
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .onAppear {
+                        alarm.stop()
+                    }
                 
             } else {
                 DatePicker("Select Time", selection: $selectedTime, displayedComponents: [.hourAndMinute])
