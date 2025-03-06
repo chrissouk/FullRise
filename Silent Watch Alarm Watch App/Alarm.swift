@@ -40,45 +40,20 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     var triggerInterval: TimeInterval = 1.0
     
     public static func getPreviousAlarmTime() -> Date {
-        if let previousAlarm = UserDefaults.standard.object(forKey: "previousAlarm") as? Date {
-            // reset previous alarm to have a date within the next 24 hours
-            let now = Date()
-            print("Now: \(now)")
-            // Extract components from the selected date
-            let previousAlarmComponents = Calendar.current.dateComponents([.hour, .minute], from: previousAlarm)
-            print(previousAlarmComponents)
-            // Create a new date with today's date but with the selected time
-            var nextAlarmComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
-            nextAlarmComponents.hour = previousAlarmComponents.hour
-            nextAlarmComponents.minute = previousAlarmComponents.minute
-            print(nextAlarmComponents)
-            // Create a date for the selected time today
-            let nextAlarmComparisonTime = Calendar.current.date(from: nextAlarmComponents)!
-            print(nextAlarmComparisonTime)
-            // Check if the selected time is in the past
-            if nextAlarmComparisonTime < now {
-                // If the selected time is in the past, set it for the next day
-                nextAlarmComponents.day! += 1
-            }
-            
-            print(Calendar.current.date(from: nextAlarmComponents) ?? now)
-            
-            return Calendar.current.date(from: nextAlarmComponents) ?? now
-            
-        } else {
-            // Default to 8 AM the next day
+        guard let previousAlarm = UserDefaults.standard.object(forKey: "previousAlarm") as? Date else {
+            /* If there's not previous alarm, default to the nearest 0800 */
             var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
             components.hour = 8
             components.minute = 0
             return Calendar.current.date(from: components) ?? Date() // Fallback to current date
         }
+        return previousAlarm
     }
     
     func set(for _time: Date) {
         
-        // save time
+        /* Save time to this instance and as the "previousAlarm" time stored in storage */
         time = _time
-        
         UserDefaults.standard.set(_time, forKey: "previousAlarm")
         
         print("Alarm set for \(_time)")
@@ -118,5 +93,31 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         triggerTimer?.invalidate() // Stop the snooze timer
         print("Alarm stopped")
     }
+    
+    func fixDate(brokenDate: Date) -> Date {
+    /* Reset the date so it keeps its the time, but changes the date to be within the next 24 hours */
+        
+        let now = Date()
+        print("Now: \(now)")
+        // Extract components from the selected date
+        let brokenComponents = Calendar.current.dateComponents([.hour, .minute], from: brokenDate)
+        print(brokenComponents)
+        // Create a new date with today's date but with the selected time
+        var fixedComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        fixedComponents.hour = brokenComponents.hour
+        fixedComponents.minute = brokenComponents.minute
+        print(fixedComponents)
+        // Create a date for the selected time today
+        let validationDate = Calendar.current.date(from: fixedComponents)!
+        print(validationDate)
+        // Check if the selected time is in the past
+        if validationDate < now {
+            // If the selected time is in the past, set it for the next day
+            fixedComponents.day! += 1
+        }
+        print(Calendar.current.date(from: fixedComponents)!)
+        return Calendar.current.date(from: fixedComponents)!
+    }
+    
 }
 

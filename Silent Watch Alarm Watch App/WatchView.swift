@@ -47,8 +47,8 @@ struct WatchView: View {
                 
                 Button("Confirm Time") {
                     print("Confirm Time pressed")
-                    alarm.set(for: selectedTime)
-                    phoneCommunicator.setAlarmTime(selectedTime)
+                    alarm.set(for: alarm.fixDate(brokenDate: selectedTime))
+                    phoneCommunicator.setAlarmTime(alarm.fixDate(brokenDate: selectedTime))
                 }
                 .background(Color(UIColor(red: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)))
                 .cornerRadius(25)
