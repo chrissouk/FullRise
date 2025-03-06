@@ -2,6 +2,37 @@
 //  Hemingway Bridge.txt
 //  FullRise
 //
-//  Created by Chris Souk on 3/5/25.
+//  Created by Chris Souk on 11/17/24.
 //
 
+11/17/24
+Trying to fix first-time-in issue, but encountered issue of phone not sending stop alarm signal more than one time.
+
+12/31/24
+Various headaches (most likely) related to instalation on new watch. Application context not updating on phone after watch sets time. 
+
+01/15/25
+Installation issues solved; other issues better understood. We do not have a first-time-in issue, but something a little stranger. To have this app run properly:
+    1. Set the alarm on your watch
+    2. Hit stop alarm on the phone
+    ~ next use ~
+    3. Set the alarm on your watch
+    4. Hit stop alarm on the phone
+    5. Clear alarm state on the phone
+    Repeat
+So rather than there being a first-time-in issue, its like a every-other-time-in issue. Also, application context will stop being shared if you hit clear alarm before stop alarm, and you have to delete both instances of the app to fix this.
+Feels good to know more about what is happening! Let's take a deeper dive into the code, though.
+
+01/17/25
+"Every-other-time-in" issue solved by adding timestamps and removing the unnecessary saving function on the phone.
+
+01/22/25
+Need to ensure alarm functionality. However, encountering strange delay between context updates and phone screen changes.
+
+03/05/25
+TODO: if we want to keep making this, we definitely need to ensure the sun/moon of the logo is disctinctly foreground (i.e. remove gradient shadow).
+Previously mentioned "strange delay" has disappeared.
+Fixed alarm scheduling issue by ensuring we set the date to be within the next 24 hours AFTER it's chosen
+
+When the alarm gets triggered, "Alarm stopped" somehow gets printed from the watch.
+When "Stop Alarm" is pressed on the phone, the alarm does not stop on the watch, but the screens change, showing successful communication but unsuccessful interpretation.
