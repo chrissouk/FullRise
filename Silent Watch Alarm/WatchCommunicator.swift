@@ -9,17 +9,41 @@ import WatchConnectivity
 
 class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     
+    // Fields
+    
     @Published var displayTime: String = ""
     @Published var isAlarmSet: Bool = false
     
     let session = WCSession.default
-       
+    
+    
+    // WCSession Handling
+      
+    func setupWCSession() {
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
+    }
+    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
         if activationState == .activated {
-//            restoreAlarmState()
             print("Phone's application context: \(session.applicationContext)")
         }
     }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        WCSession.default.activate()
+        print("Session became inactive, alarm state saved.")
+    }
+
+    func sessionDidDeactivate(_ session: WCSession) {
+        WCSession.default.activate()
+        print("Session deactivated, alarm state saved.")
+    }
+    
+    // Input (set alarm)
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         
@@ -52,6 +76,9 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
     }
     
+    
+    // Output (stop alarm)
+    
     func stopAlarm() {
         let context: [String: Any] = ["alarmTime": "", "isAlarmSet": true, "timestamp": Date().timeIntervalSince1970] /* don't change isAlarmSet yet, wait for watch's confirmation */
         do {
@@ -61,66 +88,6 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
             print("Error updating application context: \(error)")
         }
         
-//        saveAlarmState()
-    }
-
-    func setupWCSession() {
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            session.delegate = self
-            session.activate()
-        }
-    }
-    
-    // Save alarm state to UserDefaults (or any persistent storage)
-    private func saveAlarmState() {
-        let alarmStateDict: [String: Any] = ["alarmTime": displayTime, "isAlarmSet": isAlarmSet]
-        UserDefaults.standard.setValue(alarmStateDict, forKey: "alarmState")
-        print("Alarm state saved to UserDefaults: \(alarmStateDict)")
-    }
-
-    // Restore the saved alarm state from UserDefaults
-    private func restoreAlarmState() {
-        DispatchQueue.main.async {
-            if let savedState = UserDefaults.standard.dictionary(forKey: "alarmState") {
-                self.displayTime = savedState["alarmTime"] as? String ?? ""
-                self.isAlarmSet = savedState["isAlarmSet"] as? Bool ?? false
-                print("Restored alarm state: \(savedState)")
-            }
-        }
-    }
-
-    // Save the alarm state when the session becomes inactive
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        WCSession.default.activate()
-//        saveAlarmState()
-        print("Session became inactive, alarm state saved.")
-    }
-
-    // Save the alarm state when the session is deactivated
-    func sessionDidDeactivate(_ session: WCSession) {
-        WCSession.default.activate()
-//        saveAlarmState()
-        print("Session deactivated, alarm state saved.")
-    }
-    
-    
-    func clearAlarmState() {
-        // Clear alarm state from UserDefaults
-        UserDefaults.standard.removeObject(forKey: "alarmState")
-        displayTime = ""
-        isAlarmSet = false
-        
-        // Optionally, you can reset the session's application context as well.
-        do {
-            let context = ["alarmTime": "", "isAlarmSet": false, "timestamp": Date().timeIntervalSince1970] as [String : Any]
-            try session.updateApplicationContext(context)
-            print("Cleared alarm state and updated application context.")
-        } catch {
-            print("Error clearing application context: \(error.localizedDescription)")
-        }
-
-        print("Alarm state cleared.")
     }
     
 }
