@@ -15,10 +15,10 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     // Fields
     
-    @Published var time: Date? = nil
+    static var time: Date? = nil
     
-    var triggerTimer: Timer?
-    var triggerInterval: TimeInterval = 1.0
+    static var triggerTimer: Timer?
+    static var triggerInterval: TimeInterval = 1.0
     
     
     // WKExtendedRuntime Handling
@@ -56,7 +56,7 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         return previousAlarm
     }
     
-    func fixDate(brokenDate: Date) -> Date {
+    static func fixDate(brokenDate: Date) -> Date {
     /* Reset the date so it keeps its the time, but changes the date to be within the next 24 hours */
         
         let now = Date()
@@ -81,10 +81,10 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         return Calendar.current.date(from: fixedComponents)!
     }
     
-    func set(for _time: Date) {
+    static func set(for _time: Date) {
         
         /* Save time to this instance and as the "previousAlarm" time stored in storage */
-        time = _time
+        Alarm.time = _time
         UserDefaults.standard.set(_time, forKey: "previousAlarm")
         
         print("Alarm set for \(_time)")
@@ -109,22 +109,22 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     // Alarm trigger logic
     
-    func trigger() {
+    static func trigger() {
         WKInterfaceDevice.current().play(.notification)
         
         triggerTimer?.invalidate()
-        triggerTimer = Timer.scheduledTimer(withTimeInterval: self.triggerInterval, repeats: false) { _ in
-            self.trigger() // Trigger the alarm again after 1 second
+        triggerTimer = Timer.scheduledTimer(withTimeInterval: Alarm.triggerInterval, repeats: false) { _ in
+            Alarm.trigger() // Trigger the alarm again after 1 second
         }
     }
 
     // Alarm stop logic
-    func stop() {
+    static func stop() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         center.removeAllDeliveredNotifications()
         
-        triggerTimer?.invalidate() // Stop the snooze timer
+        Alarm.triggerTimer?.invalidate() // Stop the snooze timer
         print("Alarm stopped")
     }
     
