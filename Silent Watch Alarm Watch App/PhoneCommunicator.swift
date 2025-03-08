@@ -20,16 +20,16 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     
     // WCSession handling
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
-        if activationState == .activated {
-            print("Watch's application context: \(session.applicationContext)")
-        }
-    }
-    
     func setupWCSession() {
         if WCSession.isSupported() {
             self.session.delegate = self
             self.session.activate()
+        }
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
+        if activationState == .activated {
+            print("Watch's application context: \(session.applicationContext)")
         }
     }
     
