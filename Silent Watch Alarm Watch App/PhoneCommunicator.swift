@@ -10,16 +10,30 @@ import WatchConnectivity
 
 class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     
+    // Fields
+    
     @Published var displayTime: String = ""
     @Published var isAlarmSet: Bool = false
     
     let session = WCSession.default
+    
+    
+    // WCSession handling
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
         if activationState == .activated {
             print("Watch's application context: \(session.applicationContext)")
         }
     }
+    
+    func setupWCSession() {
+        if WCSession.isSupported() {
+            self.session.delegate = self
+            self.session.activate()
+        }
+    }
+    
+    // Input
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         
@@ -44,12 +58,8 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
     }
     
-    func setupWCSession() {
-        if WCSession.isSupported() {
-            self.session.delegate = self
-            self.session.activate()
-        }
-    }
+    
+    // Output
     
     func setAlarmTime(_ time: Date) {
         
