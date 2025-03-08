@@ -29,7 +29,7 @@ struct WatchView: View {
         VStack {
             if phoneCommunicator.isAlarmSet {
                 // Display the time the alarm is set
-                Text("Alarm Set for \(getDateIndicator(from: selectedTime)) at \(selectedTime, formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
+                Text("Alarm Set for \(getDateIndicator(from: alarm.fixDate(brokenDate: selectedTime))) at \(alarm.fixDate(brokenDate: selectedTime), formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
                     .multilineTextAlignment(.center)
                     .font(.headline)
                     .foregroundColor(.white)
