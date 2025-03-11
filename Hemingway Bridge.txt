@@ -36,3 +36,39 @@ Fixed alarm scheduling issue by ensuring we set the date to be within the next 2
 
 When the alarm gets triggered, "Alarm stopped" somehow gets printed from the watch.
 When "Stop Alarm" is pressed on the phone, the alarm does not stop on the watch, but the screens change, showing successful communication but unsuccessful interpretation.
+
+03/08/25
+First thing's first, let's get the stop alarm function to actually stop the alarm.
+Alarm is setting the wrong date still.
+Nope. Just showing the wrong date. Fixed it.
+Changed alarm methods to be static (I only need one alarm, and I need to be able to access it from anywhere, can be changed to imports later), moved the stopAlarm() call to the phone communicator to trigger as soon as the stop message is received, and now the alarm turns off when the "Stop Alarm" button is pressed on the phone.
+Test if it works while the watch app isn't open.
+It worked after like 30s.
+Let's try 2m.
+Phone is left open. Watch will not be opened.
+Alarm is triggered and alarm gets stopped.
+Let's try 2m with phone off too.
+Alarm triggered. Alarm stopped.
+Let's try 6m with both off.
+Alarm triggered. Alarm stopped.
+10m test.
+Alarm triggered. Alarm stopped.
+1h test.
+Successful when watch maintains its connection to xcode.
+We'll have to do an overnight test.
+Curiously, communication still works, but the alarm does not go off if the watch app is disconnected from Xcode.
+2m sleep mode test successful.
+10m sleep mode test.
+Successful.
+13m alwwp mosw test.
+Successful.
+Overnight sleep mode test. Starting at 95%, will use reading light for a while.
+
+03/09/25
+Read for abt 2 hours, battery died. Will try again tonight- without reading.
+Success.
+Over next couple of days we will try to estimate battery usage by the app.
+
+Old todos left in WatchView
+// TODO: consider creating a fallback; if my watch dies, trigger the alarm on my phone
+// TODO: add shortcut compatibility
