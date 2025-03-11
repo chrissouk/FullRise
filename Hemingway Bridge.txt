@@ -1,0 +1,74 @@
+//
+//  Hemingway Bridge.txt
+//  FullRise
+//
+//  Created by Chris Souk on 11/17/24.
+//
+
+11/17/24
+Trying to fix first-time-in issue, but encountered issue of phone not sending stop alarm signal more than one time.
+
+12/31/24
+Various headaches (most likely) related to instalation on new watch. Application context not updating on phone after watch sets time. 
+
+01/15/25
+Installation issues solved; other issues better understood. We do not have a first-time-in issue, but something a little stranger. To have this app run properly:
+    1. Set the alarm on your watch
+    2. Hit stop alarm on the phone
+    ~ next use ~
+    3. Set the alarm on your watch
+    4. Hit stop alarm on the phone
+    5. Clear alarm state on the phone
+    Repeat
+So rather than there being a first-time-in issue, its like a every-other-time-in issue. Also, application context will stop being shared if you hit clear alarm before stop alarm, and you have to delete both instances of the app to fix this.
+Feels good to know more about what is happening! Let's take a deeper dive into the code, though.
+
+01/17/25
+"Every-other-time-in" issue solved by adding timestamps and removing the unnecessary saving function on the phone.
+
+01/22/25
+Need to ensure alarm functionality. However, encountering strange delay between context updates and phone screen changes.
+
+03/05/25
+TODO: if we want to keep making this, we definitely need to ensure the sun/moon of the logo is disctinctly foreground (i.e. remove gradient shadow).
+Previously mentioned "strange delay" has disappeared.
+Fixed alarm scheduling issue by ensuring we set the date to be within the next 24 hours AFTER it's chosen
+
+When the alarm gets triggered, "Alarm stopped" somehow gets printed from the watch.
+When "Stop Alarm" is pressed on the phone, the alarm does not stop on the watch, but the screens change, showing successful communication but unsuccessful interpretation.
+
+03/08/25
+First thing's first, let's get the stop alarm function to actually stop the alarm.
+Alarm is setting the wrong date still.
+Nope. Just showing the wrong date. Fixed it.
+Changed alarm methods to be static (I only need one alarm, and I need to be able to access it from anywhere, can be changed to imports later), moved the stopAlarm() call to the phone communicator to trigger as soon as the stop message is received, and now the alarm turns off when the "Stop Alarm" button is pressed on the phone.
+Test if it works while the watch app isn't open.
+It worked after like 30s.
+Let's try 2m.
+Phone is left open. Watch will not be opened.
+Alarm is triggered and alarm gets stopped.
+Let's try 2m with phone off too.
+Alarm triggered. Alarm stopped.
+Let's try 6m with both off.
+Alarm triggered. Alarm stopped.
+10m test.
+Alarm triggered. Alarm stopped.
+1h test.
+Successful when watch maintains its connection to xcode.
+We'll have to do an overnight test.
+Curiously, communication still works, but the alarm does not go off if the watch app is disconnected from Xcode.
+2m sleep mode test successful.
+10m sleep mode test.
+Successful.
+13m alwwp mosw test.
+Successful.
+Overnight sleep mode test. Starting at 95%, will use reading light for a while.
+
+03/09/25
+Read for abt 2 hours, battery died. Will try again tonight- without reading.
+Success.
+Over next couple of days we will try to estimate battery usage by the app.
+
+Old todos left in WatchView
+// TODO: consider creating a fallback; if my watch dies, trigger the alarm on my phone
+// TODO: add shortcut compatibility

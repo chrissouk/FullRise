@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1600"
+   LastUpgradeVersion = "1610"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8E0B77532C8A246400B01DAF"
-               BuildableName = "Silent Watch Alarm.app"
-               BlueprintName = "Silent Watch Alarm"
-               ReferencedContainer = "container:Silent Watch Alarm.xcodeproj">
+               BuildableName = "FullRise.app"
+               BlueprintName = "FullRise"
+               ReferencedContainer = "container:FullRise.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E0B77532C8A246400B01DAF"
-            BuildableName = "Silent Watch Alarm.app"
-            BlueprintName = "Silent Watch Alarm"
-            ReferencedContainer = "container:Silent Watch Alarm.xcodeproj">
+            BuildableName = "FullRise.app"
+            BlueprintName = "FullRise"
+            ReferencedContainer = "container:FullRise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8E0B77532C8A246400B01DAF"
-            BuildableName = "Silent Watch Alarm.app"
-            BlueprintName = "Silent Watch Alarm"
-            ReferencedContainer = "container:Silent Watch Alarm.xcodeproj">
+            BuildableName = "FullRise.app"
+            BlueprintName = "FullRise"
+            ReferencedContainer = "container:FullRise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
