@@ -5,13 +5,6 @@
 //  Created by Chris Souk on 11/9/24.
 //
 
-
-// TODO: consider creating a fallback; if my watch dies, trigger the alarm on my phone
-// TODO: ensure functionality with sleep mode by adding notifications—-only they can run in the background
-// TODO: add shortcut compatibility
-
-// TODO: fix communication between devices
-
 import SwiftUI
 import AVFoundation
 import WatchKit
