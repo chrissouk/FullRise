@@ -43,7 +43,7 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     }
     
     
-    // Setting logic
+    // Time preparation
     
     public static func getPreviousAlarmTime() -> Date {
         guard let previousAlarm = UserDefaults.standard.object(forKey: "previousAlarm") as? Date else {
@@ -81,6 +81,9 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         return Calendar.current.date(from: fixedComponents)!
     }
     
+    
+    // Alarm handling
+    
     static func set(for _time: Date) {
         
         /* Save time to this instance and as the "previousAlarm" time stored in storage */
@@ -105,9 +108,6 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
             }
         }
     }
-
-    
-    // Alarm trigger logic
     
     static func trigger() {
         WKInterfaceDevice.current().play(.notification)
@@ -118,7 +118,6 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         }
     }
 
-    // Alarm stop logic
     static func stop() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
