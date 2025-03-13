@@ -12,9 +12,9 @@ import WatchConnectivity
 import UserNotifications
 
 struct WatchView: View {
+    
     @State private var selectedTime: Date = Alarm.getPreviousAlarmTime()
     @StateObject private var phoneCommunicator = PhoneCommunicator()
-    @Environment(\.colorScheme) var colorScheme
     
     // Custom colors
     private let accentColor = Color(red: 0.3, green: 0.7, blue: 0.9)
@@ -25,8 +25,12 @@ struct WatchView: View {
             // Background gradient
             LinearGradient(
                 gradient: Gradient(colors: [
-                    colorScheme == .dark ? Color.black : Color(red: 0.95, green: 0.95, blue: 1.0),
-                    colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.2) : Color(red: 0.85, green: 0.9, blue: 1.0)
+                    phoneCommunicator.isAlarmSet ?
+                    Color(red: 0.1, green: 0.1, blue: 0.2) :
+                        Color(red: 0.5, green: 0.8, blue: 0.95),
+                    phoneCommunicator.isAlarmSet ?
+                    Color(red: 0.15, green: 0.15, blue: 0.35) :
+                        Color(red: 0.7, green: 0.85, blue: 0.95)
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
@@ -37,33 +41,43 @@ struct WatchView: View {
                 if phoneCommunicator.isAlarmSet {
                     // Alarm set view
                     VStack(spacing: 8) {
-                        Image(systemName: "alarm.fill")
+                        Image(systemName: "moon.fill")
                             .font(.system(size: 24))
-                            .foregroundColor(accentColor)
+                            .foregroundColor(Color(red: 0.9, green: 0.9, blue: 1.0))
+                            .shadow(color: Color(red: 0.5, green: 0.6, blue: 0.9).opacity(0.8), radius: 10, x: 0, y: 0)
                         
                         Text("Alarm Set")
                             .font(.headline)
-                            .foregroundColor(accentColor)
+                            .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.9))
                         
                         Text("\(getDateIndicator(from: Alarm.fixDate(brokenDate: selectedTime)))")
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Color.white.opacity(0.7))
                         
                         Text("\(Alarm.fixDate(brokenDate: selectedTime), formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
                             .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(.primary)
+                            .foregroundColor(.white)
                     }
                     .padding()
                     .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color.primary.opacity(0.05))
-                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
+                            
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                        }
                     )
                     .padding(.horizontal)
                     
                 } else {
                     // Time picker view
                     VStack(spacing: 10) {
+                        Image(systemName: "sun.max.fill")
+                            .font(.system(size: 24))
+                            .foregroundColor(Color(red: 1.0, green: 0.8, blue: 0.3))
+                            .shadow(color: Color(red: 1.0, green: 0.7, blue: 0.2).opacity(0.5), radius: 5, x: 0, y: 0)
+                        
                         Text("Set Alarm")
                             .font(.headline)
                             .foregroundColor(accentColor)
@@ -110,7 +124,7 @@ struct WatchView: View {
         }
     }
 }
-
+    
 #Preview {
     WatchView()
 }

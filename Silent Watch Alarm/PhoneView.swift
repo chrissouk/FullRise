@@ -18,30 +18,84 @@ struct PhoneView: View {
     // Custom colors
     private let accentColor = Color(red: 0.3, green: 0.7, blue: 0.9)
     private let stopButtonColor = Color(red: 0.9, green: 0.3, blue: 0.3)
+    private let dayAccentColor = Color(red: 0.2, green: 0.6, blue: 0.9)
+    private let nightAccentColor = Color(red: 0.4, green: 0.5, blue: 0.9)
     
     var body: some View {
         ZStack {
-            // Background gradient
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    colorScheme == .dark ? Color.black : Color(red: 0.95, green: 0.95, blue: 1.0),
-                    colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.2) : Color(red: 0.85, green: 0.9, blue: 1.0)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .edgesIgnoringSafeArea(.all)
+            // Background gradient that changes based on alarm state
+            if watchCommunicator.displayTime != "" {
+                // Night gradient when alarm is set (moon)
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.05, green: 0.05, blue: 0.2),
+                        Color(red: 0.1, green: 0.1, blue: 0.3),
+                        Color(red: 0.15, green: 0.15, blue: 0.35)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .edgesIgnoringSafeArea(.all)
+                
+                // Add subtle star effect
+                ZStack {
+                    ForEach(0..<30) { _ in
+                        Circle()
+                            .fill(Color.white.opacity(Double.random(in: 0.1...0.3)))
+                            .frame(width: CGFloat.random(in: 1...3))
+                            .position(
+                                x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
+                                y: CGFloat.random(in: 0...UIScreen.main.bounds.height/1.5)
+                            )
+                    }
+                }
+            } else {
+                // Day gradient when no alarm is set (sun)
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.95, green: 0.8, blue: 0.6),
+                        Color(red: 0.7, green: 0.85, blue: 0.95),
+                        Color(red: 0.5, green: 0.8, blue: 0.95)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .edgesIgnoringSafeArea(.all)
+                
+                // Add subtle cloud effect for day mode
+                Image(systemName: "cloud.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(Color.white.opacity(0.6))
+                    .position(x: UIScreen.main.bounds.width * 0.2, y: UIScreen.main.bounds.height * 0.2)
+                
+                Image(systemName: "cloud.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(Color.white.opacity(0.5))
+                    .position(x: UIScreen.main.bounds.width * 0.7, y: UIScreen.main.bounds.height * 0.15)
+            }
             
             VStack(spacing: 30) {
                 // App logo/header
                 VStack(spacing: 5) {
-                    Image(systemName: "bed.double.fill")
-                        .font(.system(size: 50))
-                        .foregroundColor(accentColor)
+                    // Conditional icon based on alarm state
+                    if watchCommunicator.displayTime != "" {
+                        // Moon icon when alarm is set
+                        Image(systemName: "moon.fill")
+                            .font(.system(size: 70))
+                            .foregroundColor(Color(red: 0.9, green: 0.9, blue: 1.0))
+                            .shadow(color: Color(red: 0.5, green: 0.6, blue: 0.9).opacity(0.8), radius: 15, x: 0, y: 0)
+                            .shadow(color: Color(red: 0.2, green: 0.3, blue: 0.7).opacity(0.6), radius: 8, x: 0, y: 0)
+                            .padding(.bottom, 5)
+                    } else {
+                        // Sun icon when no alarm is set
+                        Image(systemName: "sun.max.fill")
+                            .font(.system(size: 70))
+                            .foregroundColor(Color(red: 1.0, green: 0.8, blue: 0.3))
+                            .shadow(color: Color(red: 1.0, green: 0.7, blue: 0.2).opacity(0.8), radius: 15, x: 0, y: 0)
+                            .shadow(color: Color(red: 1.0, green: 0.5, blue: 0.0).opacity(0.6), radius: 8, x: 0, y: 0)
+                            .padding(.bottom, 5)
+                    }
                     
-                    Text("FullRise")
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundColor(.primary)
                 }
                 .padding(.top, 50)
                 
@@ -53,16 +107,16 @@ struct PhoneView: View {
                     VStack(spacing: 20) {
                         Image(systemName: "alarm.fill")
                             .font(.system(size: 60))
-                            .foregroundColor(accentColor)
+                            .foregroundColor(nightAccentColor)
                             .padding(.bottom, 10)
                         
                         Text("Alarm Set For")
                             .font(.title3)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.9))
                         
                         Text(watchCommunicator.displayTime)
                             .font(.system(size: 42, weight: .bold))
-                            .foregroundColor(.primary)
+                            .foregroundColor(.white)
                             .padding(.bottom, 20)
                         
                         Button(action: {
@@ -88,8 +142,10 @@ struct PhoneView: View {
                     .padding(.vertical, 40)
                     .background(
                         RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.primary.opacity(0.05))
-                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                            .fill(watchCommunicator.displayTime != "" ?
+                                Color.white.opacity(0.1) :
+                                Color.primary.opacity(0.05))
+                            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
                     )
                     .padding(.horizontal, 20)
                 } else {
@@ -97,7 +153,7 @@ struct PhoneView: View {
                     VStack(spacing: 20) {
                         Image(systemName: "applewatch")
                             .font(.system(size: 60))
-                            .foregroundColor(accentColor)
+                            .foregroundColor(dayAccentColor)
                             .padding(.bottom, 10)
                         
                         Text("No Alarm Set")
@@ -113,15 +169,17 @@ struct PhoneView: View {
                         
                         Image(systemName: "arrow.down.circle")
                             .font(.system(size: 30))
-                            .foregroundColor(accentColor)
+                            .foregroundColor(dayAccentColor)
                             .padding(.top, 10)
                     }
                     .padding(.horizontal, 30)
                     .padding(.vertical, 40)
                     .background(
                         RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.primary.opacity(0.05))
-                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                            .fill(watchCommunicator.displayTime != "" ?
+                                Color.white.opacity(0.1) :
+                                Color.primary.opacity(0.1))
+                            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
                     )
                     .padding(.horizontal, 20)
                 }
@@ -131,7 +189,7 @@ struct PhoneView: View {
                 // Footer
                 Text("Sync with your Apple Watch")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(watchCommunicator.displayTime != "" ? .white.opacity(0.7) : .secondary)
                     .padding(.bottom, 20)
             }
             .padding()
