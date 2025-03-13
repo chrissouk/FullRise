@@ -21,6 +21,12 @@ struct PhoneView: View {
     private let dayAccentColor = Color(red: 0.2, green: 0.6, blue: 0.9)
     private let nightAccentColor = Color(red: 0.4, green: 0.5, blue: 0.9)
     
+    // Animation states
+    @State private var isAnimating = false
+    @State private var showConfirmation = false
+    
+    @State private var stars: [Star] = []
+    
     var body: some View {
         ZStack {
             // Background gradient that changes based on alarm state
@@ -39,14 +45,11 @@ struct PhoneView: View {
                 
                 // Add subtle star effect
                 ZStack {
-                    ForEach(0..<30) { _ in
+                    ForEach(stars.indices, id: \.self) { index in
                         Circle()
-                            .fill(Color.white.opacity(Double.random(in: 0.1...0.3)))
-                            .frame(width: CGFloat.random(in: 1...3))
-                            .position(
-                                x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
-                                y: CGFloat.random(in: 0...UIScreen.main.bounds.height/1.5)
-                            )
+                            .fill(Color.white.opacity(stars[index].opacity))
+                            .frame(width: stars[index].size, height: stars[index].size)
+                            .position(stars[index].position)
                     }
                 }
             } else {
@@ -120,22 +123,43 @@ struct PhoneView: View {
                             .padding(.bottom, 20)
                         
                         Button(action: {
-                            watchCommunicator.stopAlarm()
-                            // Add haptic feedback
-                            let generator = UINotificationFeedbackGenerator()
-                            generator.notificationOccurred(.success)
+                            withAnimation(.spring()) {
+                                showConfirmation = true
+                                
+                                // Add haptic feedback
+                                let generator = UINotificationFeedbackGenerator()
+                                generator.notificationOccurred(.success)
+                                
+                                // Delay to show confirmation animation
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                    watchCommunicator.stopAlarm()
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        showConfirmation = false
+                                    }
+                                }
+                                
+                            }
                         }) {
                             HStack {
-                                Image(systemName: "stop.fill")
-                                    .font(.headline)
-                                Text("Turn Off Alarm")
+                                if showConfirmation {
+                                    Image(systemName: "checkmark")
+                                        .font(.headline)
+                                        .transition(.scale.combined(with: .opacity))
+                                } else {
+                                    Image(systemName: "stop.fill")
+                                        .font(.headline)
+                                        .transition(.scale.combined(with: .opacity))
+                                }
+                                
+                                Text(showConfirmation ? "Alarm Off!" : "Turn Off Alarm")
                                     .font(.headline)
                             }
                             .frame(width: 220, height: 60)
                             .background(stopButtonColor)
                             .foregroundColor(.white)
                             .cornerRadius(30)
-                            .shadow(color: stopButtonColor.opacity(0.4), radius: 8, x: 0, y: 4)
+                            .shadow(color: (stopButtonColor).opacity(0.4), radius: 8, x: 0, y: 4)
                         }
                     }
                     .padding(.horizontal, 30)
@@ -197,11 +221,29 @@ struct PhoneView: View {
         .onAppear {
             WCSession.default.activate()
             watchCommunicator.setupWCSession()
+            // Only generate stars once
+            let screenWidth = UIScreen.main.bounds.width
+            let screenHeight = UIScreen.main.bounds.height / 1.5
+            stars = (0..<30).map { _ in
+                Star(
+                    position: CGPoint(x: CGFloat.random(in: 0...screenWidth),
+                                      y: CGFloat.random(in: 0...screenHeight)),
+                    opacity: Double.random(in: 0.1...0.3),
+                    size: CGFloat.random(in: 1...3)
+                )
+            }
         }
     }
 }
 
 #Preview {
     PhoneView()
+}
+
+
+struct Star {
+    let position: CGPoint
+    let opacity: Double
+    let size: CGFloat
 }
 
