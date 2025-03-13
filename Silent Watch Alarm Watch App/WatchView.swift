@@ -18,8 +18,6 @@ struct WatchView: View {
     
     // Custom colors
     private let accentColor = Color(red: 0.3, green: 0.7, blue: 0.9)
-    private let confirmButtonColor = Color(red: 0.2, green: 0.8, blue: 0.4)
-    private let dayAccentColor = Color(red: 0.2, green: 0.6, blue: 0.9)
     private let nightAccentColor = Color(red: 0.4, green: 0.5, blue: 0.9)
     
     // Animation states
@@ -28,44 +26,29 @@ struct WatchView: View {
     
     var body: some View {
         ZStack {
-            // Background gradient that changes based on alarm state
-            if phoneCommunicator.isAlarmSet {
-                // Night gradient when alarm is set (moon)
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.05, green: 0.05, blue: 0.2),
-                        Color(red: 0.1, green: 0.1, blue: 0.3),
-                        Color(red: 0.15, green: 0.15, blue: 0.35)
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .edgesIgnoringSafeArea(.all)
-                
-                // Add subtle star effect
-                ZStack {
-                    ForEach(0..<20) { _ in
-                        Circle()
-                            .fill(Color.white.opacity(Double.random(in: 0.1...0.3)))
-                            .frame(width: CGFloat.random(in: 1...2))
-                            .position(
-                                x: CGFloat.random(in: 0...WKInterfaceDevice.current().screenBounds.width),
-                                y: CGFloat.random(in: 0...WKInterfaceDevice.current().screenBounds.height/1.5)
-                            )
-                    }
+            // Night gradient background (always shown)
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.05, green: 0.05, blue: 0.2),
+                    Color(red: 0.1, green: 0.1, blue: 0.3),
+                    Color(red: 0.15, green: 0.15, blue: 0.35)
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .edgesIgnoringSafeArea(.all)
+            
+            // Add subtle star effect
+            ZStack {
+                ForEach(0..<20) { _ in
+                    Circle()
+                        .fill(Color.white.opacity(Double.random(in: 0.1...0.3)))
+                        .frame(width: CGFloat.random(in: 1...2))
+                        .position(
+                            x: CGFloat.random(in: 0...WKInterfaceDevice.current().screenBounds.width),
+                            y: CGFloat.random(in: 0...WKInterfaceDevice.current().screenBounds.height/1.5)
+                        )
                 }
-            } else {
-                // Day gradient when no alarm is set (sun)
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.95, green: 0.8, blue: 0.6),
-                        Color(red: 0.7, green: 0.85, blue: 0.95),
-                        Color(red: 0.5, green: 0.8, blue: 0.95)
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .edgesIgnoringSafeArea(.all)
             }
             
             VStack(spacing: 8) {
@@ -104,20 +87,20 @@ struct WatchView: View {
                 } else {
                     // Time picker view
                     VStack(spacing: 6) {
-                        Image(systemName: "sun.max.fill")
+                        Image(systemName: "moon.fill")
                             .font(.system(size: 32))
-                            .foregroundColor(Color(red: 1.0, green: 0.8, blue: 0.3))
-                            .shadow(color: Color(red: 1.0, green: 0.7, blue: 0.2).opacity(0.8), radius: 15, x: 0, y: 0)
-                            .shadow(color: Color(red: 1.0, green: 0.5, blue: 0.0).opacity(0.6), radius: 8, x: 0, y: 0)
+                            .foregroundColor(Color(red: 0.9, green: 0.9, blue: 1.0))
+                            .shadow(color: Color(red: 0.5, green: 0.6, blue: 0.9).opacity(0.8), radius: 10, x: 0, y: 0)
+                            .shadow(color: Color(red: 0.2, green: 0.3, blue: 0.7).opacity(0.6), radius: 5, x: 0, y: 0)
                             .zIndex(1)
                         
                         VStack(spacing: 4) {
-                            
                             DatePicker("Select Time", selection: $selectedTime, displayedComponents: [.hourAndMinute])
                                 .datePickerStyle(.wheel)
                                 .labelsHidden()
                                 .frame(height: 70)
                                 .padding(.vertical, 4)
+                                .accentColor(nightAccentColor)
                             
                             // Set alarm button
                             Button(action: {
@@ -151,10 +134,10 @@ struct WatchView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
-                                .background(showConfirmation ? Color.green : confirmButtonColor)
+                                .background(nightAccentColor)
                                 .foregroundColor(.white)
                                 .cornerRadius(20)
-                                .shadow(color: (showConfirmation ? Color.green : confirmButtonColor).opacity(0.4), radius: 5, x: 0, y: 2)
+                                .shadow(color: nightAccentColor.opacity(0.4), radius: 5, x: 0, y: 2)
                             }
                             .buttonStyle(PlainButtonStyle())
                             .padding(.horizontal)
@@ -162,13 +145,8 @@ struct WatchView: View {
                         }
                         .padding()
                         .background(
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(Color.white.opacity(0.15))
-                                
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                            }
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
                         )
                         .padding(.horizontal)
                         .padding(.top, 8)
@@ -190,4 +168,3 @@ struct WatchView: View {
 #Preview {
     WatchView()
 }
-
