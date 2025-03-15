@@ -9,7 +9,7 @@ import UserNotifications
 import WatchConnectivity
 
 struct PhoneView: View {
-    @StateObject private var watchCommunicator = WatchCommunicator()
+    @StateObject private var watch = WatchCommunicator()
     @Environment(\.colorScheme) var colorScheme
     
     // Custom colors
@@ -59,7 +59,7 @@ struct PhoneView: View {
                 
                 // Main content with consistent sizing
                 ZStack {
-                    if watchCommunicator.displayTime.isEmpty {
+                    if watch.displayTime.isEmpty {
                         noAlarmView()
                     } else {
                         alarmSetView()
@@ -91,7 +91,7 @@ struct PhoneView: View {
                 .foregroundColor(nightAccentColor)
                 .padding(.bottom, 10)
             
-            Text(watchCommunicator.displayTime)
+            Text(watch.displayTime)
                 .font(.system(size: 42, weight: .bold))
                 .foregroundColor(.white)
                 .padding(.bottom, 10)
@@ -106,7 +106,7 @@ struct PhoneView: View {
                     
                     // Delay to show confirmation animation
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        watchCommunicator.stopAlarm()
+                        watch.stopAlarm()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             showConfirmation = false
@@ -181,7 +181,7 @@ struct PhoneView: View {
     
     private func setupApp() {
         WCSession.default.activate()
-        watchCommunicator.setupWCSession()
+        watch.setupWCSession()
         generateStars()
     }
     
@@ -210,7 +210,7 @@ struct PhoneView: View {
             
             // Delay to show confirmation animation
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                watchCommunicator.stopAlarm()
+                watch.stopAlarm()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     showConfirmation = false

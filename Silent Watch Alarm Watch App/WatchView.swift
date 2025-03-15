@@ -12,7 +12,7 @@ import UserNotifications
 
 struct WatchView: View {
     @State private var selectedTime: Date = Alarm.getPreviousAlarmTime()
-    @StateObject private var phoneCommunicator = PhoneCommunicator()
+    @StateObject private var phone = PhoneCommunicator()
     
     // Custom colors
     private let nightAccentColor = Color(red: 0.4, green: 0.5, blue: 0.9)
@@ -51,7 +51,7 @@ struct WatchView: View {
                     .zIndex(1)
                     
                 
-                if phoneCommunicator.isAlarmSet {
+                if phone.isAlarmSet {
                     alarmSetView()
                 } else {
                     timePickerView()
@@ -112,7 +112,7 @@ struct WatchView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                         print("Confirm Time pressed")
                         Alarm.set(for: Alarm.fixDate(brokenDate: selectedTime))
-                        phoneCommunicator.setAlarmTime(Alarm.fixDate(brokenDate: selectedTime))
+                        phone.setAlarmTime(Alarm.fixDate(brokenDate: selectedTime))
                         showConfirmation = false
                     }
                 }
@@ -153,9 +153,9 @@ struct WatchView: View {
     // MARK: - Helper Methods
     
     private func setupApp() {
-        phoneCommunicator.setupWCSession()
+        phone.setupWCSession()
         if Alarm.time != nil {
-            phoneCommunicator.setAlarmTime(Alarm.time!)
+            phone.setAlarmTime(Alarm.time!)
         }
         Notifications.requestPermission()
         generateStars()
@@ -199,7 +199,7 @@ struct WatchView: View {
                 print("Confirm Time pressed")
                 let fixedDate = Alarm.fixDate(brokenDate: selectedTime)
                 Alarm.set(for: fixedDate)
-                phoneCommunicator.setAlarmTime(fixedDate)
+                phone.setAlarmTime(fixedDate)
                 showConfirmation = false
             }
         }
