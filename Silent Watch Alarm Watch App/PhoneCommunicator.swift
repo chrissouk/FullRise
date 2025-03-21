@@ -17,6 +17,8 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     
     let session = WCSession.default
     
+    var alarm: Alarm = Alarm()
+    
     
     // WCSession handling
     
@@ -44,7 +46,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
             
             if self.displayTime == "" {
                 self.isAlarmSet = false
-                Alarm.stop()
+                self.alarm.stop()
                 
                 // confirm alarm has been stopped
                 let context = ["alarmTime:": "", "isAlarmSet": false, "timestamp": Date().timeIntervalSince1970]

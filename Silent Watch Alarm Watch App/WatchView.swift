@@ -11,8 +11,13 @@ import WatchConnectivity
 import UserNotifications
 
 struct WatchView: View {
+    
+    // Fields
+    
+    private var alarm: Alarm = Alarm();
+    
     @State private var selectedTime: Date = Alarm.getPreviousAlarmTime()
-    @StateObject private var phone = PhoneCommunicator()
+    @StateObject private var phone: PhoneCommunicator = PhoneCommunicator()
     
     // Custom colors
     private let nightAccentColor = Color(red: 0.4, green: 0.5, blue: 0.9)
@@ -73,11 +78,11 @@ struct WatchView: View {
                 .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.9))
                 .padding(.top, 4)
             
-            Text("\(getDateIndicator(from: Alarm.fixDate(brokenDate: selectedTime)))")
+            Text("\(getDateIndicator(from: Alarm.fix(date: selectedTime)))")
                 .font(.subheadline)
                 .foregroundColor(Color.white.opacity(0.7))
             
-            Text("\(Alarm.fixDate(brokenDate: selectedTime), formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
+            Text("\(Alarm.fix(date: selectedTime), formatter: customDateFormatter(dateStyle: .none, timeStyle: .short))")
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(.white)
         }
@@ -111,8 +116,8 @@ struct WatchView: View {
                     // Delay to show confirmation animation
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                         print("Confirm Time pressed")
-                        Alarm.set(for: Alarm.fixDate(brokenDate: selectedTime))
-                        phone.setAlarmTime(Alarm.fixDate(brokenDate: selectedTime))
+                        alarm.set(for: Alarm.fix(date: selectedTime))
+                        phone.setAlarmTime(Alarm.fix(date: selectedTime))
                         showConfirmation = false
                     }
                 }
@@ -153,9 +158,10 @@ struct WatchView: View {
     // MARK: - Helper Methods
     
     private func setupApp() {
+        phone.alarm = alarm
         phone.setupWCSession()
-        if Alarm.time != nil {
-            phone.setAlarmTime(Alarm.time!)
+        if alarm.time != nil {
+            phone.setAlarmTime(alarm.time!)
         }
         Notifications.requestPermission()
         generateStars()
@@ -197,8 +203,8 @@ struct WatchView: View {
             // Delay to show confirmation animation
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                 print("Confirm Time pressed")
-                let fixedDate = Alarm.fixDate(brokenDate: selectedTime)
-                Alarm.set(for: fixedDate)
+                let fixedDate = Alarm.fix(date: selectedTime)
+                alarm.set(for: fixedDate)
                 phone.setAlarmTime(fixedDate)
                 showConfirmation = false
             }
