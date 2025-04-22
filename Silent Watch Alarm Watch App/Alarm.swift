@@ -37,6 +37,7 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("Session started")
+        trigger()
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
@@ -100,15 +101,8 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
             // If the alarm time is in the past or right now, trigger the alarm immediately
             print("Alarm is for now or in the past")
             trigger()
-        } else if timeInterval <= 300 {
-            Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
-                self.trigger()
-            }
         } else {
-            startSession(at: _time.addingTimeInterval(-5 * 60))
-            Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
-                self.trigger()
-            }
+            startSession(at: _time)
         }
     }
     
