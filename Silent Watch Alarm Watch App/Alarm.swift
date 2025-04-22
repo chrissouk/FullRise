@@ -15,27 +15,29 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     // Fields
     
-    static var time: Date? = nil
+    var time: Date? = nil
     
-    static var triggerTimer: Timer?
-    static var triggerInterval: TimeInterval = 1.0
+    var triggerTimer: Timer?
+    var triggerInterval: TimeInterval = 1.0
     
     
     // WKExtendedRuntime Handling
     var session: WKExtendedRuntimeSession?
 
-    func startSession() {
+    func startSession(at _time: Date) {
         session = WKExtendedRuntimeSession()
         session?.delegate = self
-        session?.start()
+        session?.start(at: _time)
     }
     
     func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: (any Error)?) {
         print("Session invalidated with reason: \(reason)")
+        
     }
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("Session started")
+        trigger()
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
@@ -56,13 +58,13 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         return previousAlarm
     }
     
-    static func fixDate(brokenDate: Date) -> Date {
+    public static func fix(date: Date) -> Date {
     /* Reset the date so it keeps its the time, but changes the date to be within the next 24 hours */
         
         let now = Date()
         print("Now: \(now)")
         // Extract components from the selected date
-        let brokenComponents = Calendar.current.dateComponents([.hour, .minute], from: brokenDate)
+        let brokenComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
         print(brokenComponents)
         // Create a new date with today's date but with the selected time
         var fixedComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
@@ -84,10 +86,10 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     // Alarm handling
     
-    static func set(for _time: Date) {
+    func set(for _time: Date) {
         
         /* Save time to this instance and as the "previousAlarm" time stored in storage */
-        Alarm.time = _time
+        time = _time
         UserDefaults.standard.set(_time, forKey: "previousAlarm")
         
         print("Alarm set for \(_time)")
@@ -100,31 +102,32 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
             print("Alarm is for now or in the past")
             trigger()
         } else {
-            // Schedule a local notification
-            Notifications.schedule(for: _time)
-            // Set a timer that triggers the alarm at the exact time interval
-            Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
-                self.trigger()
-            }
+            startSession(at: _time)
         }
     }
     
-    static func trigger() {
+    func trigger() {
         WKInterfaceDevice.current().play(.notification)
         
         triggerTimer?.invalidate()
-        triggerTimer = Timer.scheduledTimer(withTimeInterval: Alarm.triggerInterval, repeats: false) { _ in
-            Alarm.trigger() // Trigger the alarm again after 1 second
+        triggerTimer = Timer.scheduledTimer(withTimeInterval: triggerInterval, repeats: true) { _ in
+            WKInterfaceDevice.current().play(.notification)
+            print("Alarm triggered")
         }
     }
 
-    static func stop() {
+    func stop() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         center.removeAllDeliveredNotifications()
+            
+        triggerTimer?.invalidate() // Stop the snooze timer
         
-        Alarm.triggerTimer?.invalidate() // Stop the snooze timer
         print("Alarm stopped")
+        
+        if (session != nil) {
+            session!.invalidate()
+        }
     }
     
 }
