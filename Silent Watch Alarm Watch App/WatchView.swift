@@ -13,7 +13,6 @@ import UserNotifications
 struct WatchView: View {
     
     // Fields
-    
     private var alarm: Alarm = Alarm();
     
     @State private var selectedTime: Date = Alarm.getPreviousAlarmTime()

@@ -100,10 +100,12 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
             // If the alarm time is in the past or right now, trigger the alarm immediately
             print("Alarm is for now or in the past")
             trigger()
+        } else if timeInterval <= 300 {
+            Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
+                self.trigger()
+            }
         } else {
-            // Schedule a local notification
             startSession(at: _time.addingTimeInterval(-5 * 60))
-            // Set a timer that triggers the alarm at the exact time interval
             Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { timer in
                 self.trigger()
             }
