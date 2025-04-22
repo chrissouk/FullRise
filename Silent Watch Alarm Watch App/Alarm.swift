@@ -110,7 +110,8 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         WKInterfaceDevice.current().play(.notification)
         
         triggerTimer?.invalidate()
-        triggerTimer = Timer.scheduledTimer(withTimeInterval: triggerInterval, repeats: true) { _ in
+        triggerTimer = Timer.scheduledTimer(withTimeInterval: triggerInterval, repeats: false) { _ in
+            self.trigger() // Trigger the alarm again after 1 second
             print("Alarm triggered")
         }
     }
