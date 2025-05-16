@@ -14,9 +14,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     
     @Published var displayTime: String = ""
     @Published var isAlarmSet: Bool = false
-    
     let session = WCSession.default
-    
     var alarm: Alarm = Alarm()
     
     
@@ -34,6 +32,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
             print("Watch's application context: \(session.applicationContext)")
         }
     }
+    
     
     // Input (stop alarm)
     
@@ -88,4 +87,6 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
             print("Error updating application context: \(error.localizedDescription)")
         }
     }
+    
+    
 }

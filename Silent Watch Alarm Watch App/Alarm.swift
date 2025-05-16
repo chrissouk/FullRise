@@ -22,17 +22,13 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     
     // WKExtendedRuntime Handling
+    
     var session: WKExtendedRuntimeSession?
 
     func startSession(at _time: Date) {
         session = WKExtendedRuntimeSession()
         session?.delegate = self
         session?.start(at: _time)
-    }
-    
-    func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: (any Error)?) {
-        print("Session invalidated with reason: \(reason)")
-        
     }
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
@@ -42,6 +38,12 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("Session will expire")
+    }
+    
+    func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession,
+                                didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason,
+                                error: (any Error)?) {
+        print("Session invalidated with reason: \(reason)")
     }
     
     
@@ -63,24 +65,30 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         
         let now = Date()
         print("Now: \(now)")
+        
         // Extract components from the selected date
         let brokenComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
         print(brokenComponents)
+        
         // Create a new date with today's date but with the selected time
         var fixedComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
         fixedComponents.hour = brokenComponents.hour
         fixedComponents.minute = brokenComponents.minute
         print(fixedComponents)
+        
         // Create a date for the selected time today
         let validationDate = Calendar.current.date(from: fixedComponents)!
         print(validationDate)
+        
         // Check if the selected time is in the past
         if validationDate < now {
             // If the selected time is in the past, set it for the next day
             fixedComponents.day! += 1
         }
+        
         print(Calendar.current.date(from: fixedComponents)!)
         return Calendar.current.date(from: fixedComponents)!
+        
     }
     
     
