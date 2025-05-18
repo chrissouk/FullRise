@@ -33,6 +33,7 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("Session started")
+        extendedRuntimeSession.notifyUser(hapticType: .notification, repeatHandler: nil)
         trigger()
     }
     
