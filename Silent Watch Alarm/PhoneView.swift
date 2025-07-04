@@ -71,11 +71,10 @@ struct PhoneView: View {
                 
                 Spacer()
                 
-                // Footer
-//                Text("Sync with your Apple Watch")
-//                    .font(.caption)
-//                    .foregroundColor(.white.opacity(0.7))
-//                    .padding(.bottom, 20)
+                Spacer()
+                
+                Spacer()
+                
             }
             .padding()
         }
@@ -140,10 +139,6 @@ struct PhoneView: View {
         }
         .frame(width: 310, height: 240)
         .padding(.vertical, 40)
-        .background(
-            RoundedRectangle(cornerRadius: 25)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal, 20)
     }
     
@@ -164,18 +159,10 @@ struct PhoneView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white.opacity(0.7))
                 .padding(.horizontal)
-            
-//            Image(systemName: "applewatch")
-//                .font(.system(size: 40))
-//                .foregroundColor(nightAccentColor)
-//                .padding(.top, 10)
+
         }
         .frame(width: 310, height: 240)
         .padding(.vertical, 40)
-        .background(
-            RoundedRectangle(cornerRadius: 25)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal, 20)
     }
     

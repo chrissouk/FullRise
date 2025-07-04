@@ -87,10 +87,6 @@ struct WatchView: View {
                 .foregroundColor(.white)
         }
         .padding(15)
-        .background(
-            RoundedRectangle(cornerRadius: 40)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal)
         .padding(.top, 25)
         .padding(.bottom, 7)
@@ -102,7 +98,6 @@ struct WatchView: View {
                 .datePickerStyle(.wheel)
                 .labelsHidden()
                 .frame(height: 70)
-                .cornerRadius(45)
                 .padding(.vertical, 4)
                 .accentColor(nightAccentColor)
             
@@ -148,10 +143,6 @@ struct WatchView: View {
             .padding(.top, 3)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 40)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal)
         .padding(.top, 6)
     }
