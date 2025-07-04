@@ -73,8 +73,6 @@ struct PhoneView: View {
                 
                 Spacer()
                 
-                Spacer()
-                
             }
             .padding()
         }
