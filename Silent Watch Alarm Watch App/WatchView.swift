@@ -47,12 +47,13 @@ struct WatchView: View {
             
             VStack(spacing: 8) {
                 // Moon icon (common to both views)
-                Image(systemName: "moon.fill")
-                    .font(.system(size: 32))
-                    .foregroundColor(Color(red: 0.9, green: 0.9, blue: 1.0))
+                Image("Moon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8))
                     .shadow(color: Color(red: 0.5, green: 0.6, blue: 0.9).opacity(0.8), radius: 10)
                     .shadow(color: Color(red: 0.2, green: 0.3, blue: 0.7).opacity(0.6), radius: 5)
-                    .zIndex(1)
                     
                 
                 if phone.isAlarmSet {
@@ -87,7 +88,7 @@ struct WatchView: View {
         }
         .padding(15)
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 40)
                 .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
         )
         .padding(.horizontal)
@@ -101,6 +102,7 @@ struct WatchView: View {
                 .datePickerStyle(.wheel)
                 .labelsHidden()
                 .frame(height: 70)
+                .cornerRadius(45)
                 .padding(.vertical, 4)
                 .accentColor(nightAccentColor)
             
@@ -138,7 +140,7 @@ struct WatchView: View {
                 .padding(.vertical, 12)
                 .background(nightAccentColor)
                 .foregroundColor(.white)
-                .cornerRadius(20)
+                .cornerRadius(45)
                 .shadow(color: nightAccentColor.opacity(0.4), radius: 5, x: 0, y: 2)
             }
             .buttonStyle(PlainButtonStyle())
@@ -147,7 +149,7 @@ struct WatchView: View {
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 40)
                 .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
         )
         .padding(.horizontal)
