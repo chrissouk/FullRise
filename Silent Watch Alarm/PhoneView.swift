@@ -47,9 +47,11 @@ struct PhoneView: View {
             
             VStack(spacing: 30) {
                 // App logo/header
-                Image(systemName: "moon.fill")
-                    .font(.system(size: 70))
-                    .foregroundColor(Color(red: 0.9, green: 0.9, blue: 1.0))
+                Image("Moon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8))
                     .shadow(color: Color(red: 0.5, green: 0.6, blue: 0.9).opacity(0.8), radius: 15)
                     .shadow(color: Color(red: 0.2, green: 0.3, blue: 0.7).opacity(0.6), radius: 8)
                     .padding(.bottom, 5)
@@ -163,8 +165,8 @@ struct PhoneView: View {
                 .foregroundColor(.white.opacity(0.7))
                 .padding(.horizontal)
             
-//            Image(systemName: "arrow.down.circle")
-//                .font(.system(size: 30))
+//            Image(systemName: "applewatch")
+//                .font(.system(size: 40))
 //                .foregroundColor(nightAccentColor)
 //                .padding(.top, 10)
         }
