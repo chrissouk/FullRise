@@ -157,6 +157,25 @@ struct PhoneView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white.opacity(0.7))
                 .padding(.horizontal)
+            
+            Spacer()
+            
+            Button("Can't find it? Download it through the Watch app") {
+                // Open Apple's Watch app on iPhone
+                if let url = URL(string: "bridge://") {
+                    UIApplication.shared.open(url) { success in
+                        if !success {
+                            // Fallback to App Store if Watch app isn't installed
+                            if let appStoreURL = URL(string: "https://apps.apple.com/app/apple-watch/id1069511734") {
+                                UIApplication.shared.open(appStoreURL)
+                            }
+                        }
+                    }
+                }
+            }
+            .font(.footnote)
+            .foregroundColor(nightAccentColor)
+            .padding(.bottom, 50)
 
         }
         .frame(width: 310, height: 240)
