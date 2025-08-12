@@ -19,6 +19,8 @@ struct PhoneView: View {
     // Animation states
     @State private var showConfirmation = false
     @State private var stars: [Star] = []
+    @State private var showWatchHelp = false
+    @State private var stepsHeight: CGFloat = 72
     
     // Background gradient
     private let backgroundGradient = Gradient(colors: [
@@ -72,6 +74,77 @@ struct PhoneView: View {
                 Spacer()
                 
                 Spacer()
+                
+                if watch.displayTime.isEmpty {
+                    VStack(spacing: 8) {
+                        // Header button (centered & fixed)
+                        HStack {
+                            Spacer()
+                            Button {
+                                withAnimation(.snappy(duration: 0.35, extraBounce: 0.12)) {
+                                    showWatchHelp.toggle()
+                                }
+                            } label: {
+                                HStack(spacing: 6) {
+                                    Text("Not showing up?")
+                                    Image(systemName: "chevron.down")
+                                        .imageScale(.small)
+                                        .rotationEffect(.degrees(showWatchHelp ? 180 : 0))
+                                        .animation(.snappy(duration: 0.35, extraBounce: 0.12), value: showWatchHelp)
+                                }
+                            }
+                            Spacer()
+                        }
+
+                        // Fixed-height container so nothing else moves
+                        ZStack(alignment: .topLeading) {
+                            // Invisible measurer to lock in the natural expanded height
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("→ Open the Apple Watch app")
+                                Text("→ Scroll to the bottom")
+                                Text("→ Tap Install next to FullRise")
+                            }
+                            .opacity(0)
+                            .background(
+                                GeometryReader { proxy in
+                                    Color.clear
+                                        .onAppear { stepsHeight = proxy.size.height }
+                                        .onChange(of: proxy.size.height) { stepsHeight = $0 }
+                                }
+                            )
+
+                            // Animated content (only affects its own space)
+                            if showWatchHelp {
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Button { withAnimation { showWatchHelp = false } } label: {
+                                        Text("→ Open the Apple Watch app")
+                                            .contentTransition(.opacity)
+                                    }
+                                    Button { withAnimation { showWatchHelp = false } } label: {
+                                        Text("→ Scroll to the bottom")
+                                            .contentTransition(.opacity)
+                                    }
+                                    Button { withAnimation { showWatchHelp = false } } label: {
+                                        Text("→ Tap Install next to FullRise")
+                                            .contentTransition(.opacity)
+                                    }
+                                }
+                                .transition(.asymmetric(
+                                    insertion: .opacity.combined(with: .scale(scale: 0.98, anchor: .top)),
+                                    removal: .opacity.combined(with: .scale(scale: 0.98, anchor: .top))
+                                ))
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: stepsHeight) // keeps surrounding layout fixed
+                        .clipped()
+                    }
+                    .animation(.snappy(duration: 0.35, extraBounce: 0.12), value: showWatchHelp)
+                    .font(.footnote)
+                    .foregroundColor(nightAccentColor)
+                    .padding(.bottom, 50)
+
+                }
                 
             }
             .padding()
@@ -157,26 +230,6 @@ struct PhoneView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white.opacity(0.7))
                 .padding(.horizontal)
-            
-            Spacer()
-            
-            Button("Can't find it? Download it through the Watch app") {
-                // Open Apple's Watch app on iPhone
-                if let url = URL(string: "bridge://") {
-                    UIApplication.shared.open(url) { success in
-                        if !success {
-                            // Fallback to App Store if Watch app isn't installed
-                            if let appStoreURL = URL(string: "https://apps.apple.com/app/apple-watch/id1069511734") {
-                                UIApplication.shared.open(appStoreURL)
-                            }
-                        }
-                    }
-                }
-            }
-            .font(.footnote)
-            .foregroundColor(nightAccentColor)
-            .padding(.bottom, 50)
-
         }
         .frame(width: 310, height: 240)
         .padding(.vertical, 40)
