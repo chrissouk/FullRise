@@ -18,8 +18,14 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     var time: Date? = nil
     
     var triggerTimer: Timer?
-    var triggerInterval: TimeInterval = 1.0
     
+    private let hapticTypes: [WKHapticType] = [.failure, .notification, .success, .retry]
+    private let intervalRanges: [(min: Double, max: Double)] = [
+        (0.2, 0.4),  // Quick bursts
+        (0.5, 0.8),  // Medium pace
+        (1.0, 1.5),  // Slower rhythm
+        (0.3, 0.6)   // Variable medium
+    ]
     
     // WKExtendedRuntime Handling
     
@@ -115,12 +121,42 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     }
     
     func trigger() {
-        WKInterfaceDevice.current().play(.notification)
+        let randomHaptic = hapticTypes.randomElement() ?? .failure
+        WKInterfaceDevice.current().play(randomHaptic)
         
         triggerTimer?.invalidate()
-        triggerTimer = Timer.scheduledTimer(withTimeInterval: triggerInterval, repeats: true) { _ in
-            WKInterfaceDevice.current().play(.notification)
-            print("Alarm triggered")
+        
+        triggerTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            
+            // Generate random interval from random range
+            let randomRange = self.intervalRanges.randomElement() ?? (0.5, 1.0)
+            let randomInterval = Double.random(in: randomRange.min...randomRange.max)
+            
+            // Generate random haptic type
+            let randomHaptic = self.hapticTypes.randomElement() ?? .failure
+            
+            // Sometimes do burst patterns (20% chance)
+            if Double.random(in: 0...1) < 0.2 {
+                // Burst pattern: 3 quick vibrations
+                for i in 0..<3 {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1) {
+                        WKInterfaceDevice.current().play(randomHaptic)
+                    }
+                }
+            } else {
+                // Single vibration
+                WKInterfaceDevice.current().play(randomHaptic)
+            }
+            
+            print("Alarm triggered with \(randomHaptic) haptic, next in \(randomInterval)s")
+            
+            // Reschedule timer with new random interval
+            timer.invalidate()
+            self.triggerTimer = Timer.scheduledTimer(withTimeInterval: randomInterval, repeats: false) { _ in
+                // This will trigger the next cycle
+                self.trigger()
+            }
         }
     }
 
@@ -134,10 +170,9 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         print("Alarm stopped")
         
         if (session != nil) {
-            session!.notifyUser(hapticType: .notification, repeatHandler: nil)
+            session!.notifyUser(hapticType: .failure, repeatHandler: nil)
             session!.invalidate()
         }
     }
     
 }
-

@@ -106,8 +106,7 @@ struct WatchView: View {
                 withAnimation(.spring()) {
                     showConfirmation = true
                     
-                    // Add haptic feedback
-                    WKInterfaceDevice.current().play(.success)
+                    WKInterfaceDevice.current().play(.failure)
                     
                     // Delay to show confirmation animation
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -189,8 +188,7 @@ struct WatchView: View {
         withAnimation(.spring()) {
             showConfirmation = true
             
-            // Add haptic feedback
-            WKInterfaceDevice.current().play(.success)
+            WKInterfaceDevice.current().play(.failure)
             
             // Delay to show confirmation animation
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
