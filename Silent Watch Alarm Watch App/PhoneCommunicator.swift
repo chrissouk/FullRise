@@ -42,6 +42,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
         DispatchQueue.main.async {
             self.displayTime = ""
+            self.alarm.startSession(at: Date())
             
             if self.displayTime == "" {
                 self.isAlarmSet = false
