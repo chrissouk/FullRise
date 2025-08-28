@@ -17,7 +17,9 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     var time: Date? = nil
     
-    var triggerTimer: Timer?
+    var ringTimer: Timer?
+    
+    var isRinging: Bool = false
     
     private let hapticTypes: [WKHapticType] = [.failure, .notification, .success, .retry]
     private let intervalRanges: [(min: Double, max: Double)] = [
@@ -39,7 +41,8 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("Session started")
-        trigger()
+        ring()
+        isRinging = true
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
@@ -112,51 +115,25 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         let timeInterval = _time.timeIntervalSince(Date())
         
         if timeInterval <= 0 {
-            // If the alarm time is in the past or right now, trigger the alarm immediately
+            // If the alarm time is in the past or right now, ring the alarm immediately
             print("Alarm is for now or in the past")
-            trigger()
+            ring()
         } else {
             startSession(at: _time)
         }
     }
     
-    func trigger() {
+    func ring() {
         let randomHaptic = hapticTypes.randomElement() ?? .failure
         WKInterfaceDevice.current().play(randomHaptic)
         
-        triggerTimer?.invalidate()
+        let randomRange = self.intervalRanges.randomElement() ?? (0.5, 1.0)
+        let randomInterval = Double.random(in: randomRange.min...randomRange.max)
         
-        triggerTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
-            guard let self = self else { return }
-            
-            // Generate random interval from random range
-            let randomRange = self.intervalRanges.randomElement() ?? (0.5, 1.0)
-            let randomInterval = Double.random(in: randomRange.min...randomRange.max)
-            
-            // Generate random haptic type
-            let randomHaptic = self.hapticTypes.randomElement() ?? .failure
-            
-            // Sometimes do burst patterns (20% chance)
-            if Double.random(in: 0...1) < 0.2 {
-                // Burst pattern: 3 quick vibrations
-                for i in 0..<3 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1) {
-                        WKInterfaceDevice.current().play(randomHaptic)
-                    }
-                }
-            } else {
-                // Single vibration
-                WKInterfaceDevice.current().play(randomHaptic)
-            }
-            
-            print("Alarm triggered with \(randomHaptic) haptic, next in \(randomInterval)s")
-            
-            // Reschedule timer with new random interval
-            timer.invalidate()
-            self.triggerTimer = Timer.scheduledTimer(withTimeInterval: randomInterval, repeats: false) { _ in
-                // This will trigger the next cycle
-                self.trigger()
-            }
+        ringTimer?.invalidate()
+        
+        ringTimer = Timer.scheduledTimer(withTimeInterval: randomInterval, repeats: true) { _ in
+            self.ring()
         }
     }
 
@@ -165,11 +142,11 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         center.removeAllPendingNotificationRequests()
         center.removeAllDeliveredNotifications()
             
-        triggerTimer?.invalidate() // Stop the snooze timer
+        ringTimer?.invalidate() // Stop the snooze timer
         
         print("Alarm stopped")
         
-        if (session != nil) {
+        if (!isRinging) {
             session!.notifyUser(hapticType: .failure, repeatHandler: nil)
             session!.invalidate()
         }
