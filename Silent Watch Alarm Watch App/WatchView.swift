@@ -106,7 +106,7 @@ struct WatchView: View {
                 withAnimation(.spring()) {
                     showConfirmation = true
                     
-                    WKInterfaceDevice.current().play(.failure)
+                    WKInterfaceDevice.current().play(.success)
                     
                     // Delay to show confirmation animation
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -188,7 +188,7 @@ struct WatchView: View {
         withAnimation(.spring()) {
             showConfirmation = true
             
-            WKInterfaceDevice.current().play(.failure)
+            WKInterfaceDevice.current().play(.success)
             
             // Delay to show confirmation animation
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
