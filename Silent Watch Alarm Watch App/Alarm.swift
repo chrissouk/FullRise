@@ -146,7 +146,7 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         
         print("Alarm stopped")
         
-        if (!isRinging) {
+        if (isRinging) {
             session!.notifyUser(hapticType: .failure, repeatHandler: nil)
             session!.invalidate()
         }
