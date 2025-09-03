@@ -16,6 +16,19 @@ Now you can wake up without waking anyone else.
 
 Sleep better tonight with FullRise.
 
+## 🖼️ Screenshots
+
+### Apple Watch
+| Alarm Off | Alarm On |
+|-----------|----------|
+| ![Watch Alarm Off](Progress/incoming-258CB03E-902A-4273-9415-8913A85665F1.png) | ![Watch Alarm On](Assets/incoming-8490D2C0-5FA3-4240-8DCD-E1367C36C928.png) |
+
+### iPhone
+| Alarm Off | Alarm On |
+|-----------|----------|
+| ![Phone Alarm Off](Progress/IMG_1510.png) | ![Phone Alarm On](Progress/IMG_1511.png) |
+
+
 ## 🌟 Features
 
 ### 🎯 Core Functionality
