@@ -21,12 +21,12 @@ Sleep better tonight with FullRise.
 ### Apple Watch
 | Alarm Off | Alarm On |
 |-----------|----------|
-| ![Watch Alarm Off](Progress/incoming-258CB03E-902A-4273-9415-8913A85665F1.png) | ![Watch Alarm On](Assets/incoming-8490D2C0-5FA3-4240-8DCD-E1367C36C928.png) |
+| ![Watch Alarm Off](Progress/incoming-8490D2C0-5FA3-4240-8DCD-E1367C36C928.PNG) | ![Watch Alarm On](Progress/incoming-258CB03E-902A-4273-9415-8913A85665F1.PNG) |
 
 ### iPhone
 | Alarm Off | Alarm On |
 |-----------|----------|
-| ![Phone Alarm Off](Progress/IMG_1510.png) | ![Phone Alarm On](Progress/IMG_1511.png) |
+| ![Phone Alarm Off](Progress/IMG_1510.PNG) | ![Phone Alarm On](Progress/IMG_1511.PNG) |
 
 
 ## 🌟 Features
