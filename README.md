@@ -6,7 +6,7 @@ Never sleep through your alarm again.
 
 Never wake up your roommate again.
 
-FullRise solves your sleep. Its silent, persistent vibration is only dismissible on your phone. A unique, simple, and effective solution for the most common sleep problems.
+FullRise solves your sleep. Its silent, persistent vibration is only dismissible on your phone. It's the only simple and effective solution for the most common sleep problems.
 
 Now you can put your phone away and actually sleep.
 
