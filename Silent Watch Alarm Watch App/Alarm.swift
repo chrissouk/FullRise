@@ -23,12 +23,12 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     private let hapticTypes: [WKHapticType] = [.failure, .notification, .success, .retry]
     private let intervalRanges: [(min: Double, max: Double)] = [
-        (0.2, 0.4),  // Quick bursts
+        (0.1, 0.3),  // Quick bursts
         (0.5, 0.8),  // Medium pace
         (1.0, 1.5),  // Slower rhythm
         (0.3, 0.6)   // Variable medium
     ]
-    
+
     // WKExtendedRuntime Handling
     
     var session: WKExtendedRuntimeSession?
@@ -41,8 +41,8 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("Session started")
-        ring()
         isRinging = true
+        ring()
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
@@ -104,18 +104,14 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     // Alarm handling
     
     func set(for _time: Date) {
-        
-        /* Save time to this instance and as the "previousAlarm" time stored in storage */
         time = _time
         UserDefaults.standard.set(_time, forKey: "previousAlarm")
         
         print("Alarm set for \(_time)")
         
-        // set the alarm
         let timeInterval = _time.timeIntervalSince(Date())
         
         if timeInterval <= 0 {
-            // If the alarm time is in the past or right now, ring the alarm immediately
             print("Alarm is for now or in the past")
             ring()
         } else {
@@ -130,26 +126,39 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         let randomRange = self.intervalRanges.randomElement() ?? (0.5, 1.0)
         let randomInterval = Double.random(in: randomRange.min...randomRange.max)
         
-        ringTimer?.invalidate()
-        
-        ringTimer = Timer.scheduledTimer(withTimeInterval: randomInterval, repeats: true) { _ in
-            self.ring()
+        if ringTimer == nil && isRinging {
+            ringTimer = Timer.scheduledTimer(withTimeInterval: randomInterval, repeats: false) { [weak self] _ in
+                guard let self = self, self.isRinging else { return }
+                self.ringTimer = nil
+                self.ring()
+            }
         }
     }
 
     func stop() {
-        let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
-        center.removeAllDeliveredNotifications()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             
-        ringTimer?.invalidate() // Stop the snooze timer
-        
-        print("Alarm stopped")
-        
-        if (isRinging) {
-            session!.notifyUser(hapticType: .failure, repeatHandler: nil)
-            session!.invalidate()
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+            center.removeAllDeliveredNotifications()
+            
+            self.isRinging = false
+            
+            self.ringTimer?.invalidate()
+            self.ringTimer = nil
+            
+            print("Alarm stopped")
+            
+            if let session = self.session {
+                if session.state == .running {
+                    session.notifyUser(hapticType: .notification, repeatHandler: nil)
+                    session.invalidate()
+                }
+                self.session = nil
+            }
         }
     }
+
     
 }
