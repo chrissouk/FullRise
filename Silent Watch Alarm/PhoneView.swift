@@ -86,7 +86,7 @@ struct PhoneView: View {
                                 }
                             } label: {
                                 HStack(spacing: 6) {
-                                    Text("Not showing up?")
+                                    Text("Can't find watch app?")
                                     Image(systemName: "chevron.down")
                                         .imageScale(.small)
                                         .rotationEffect(.degrees(showWatchHelp ? 180 : 0))
