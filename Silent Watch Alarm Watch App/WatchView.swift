@@ -154,7 +154,6 @@ struct WatchView: View {
         if alarm.time != nil {
             phone.setAlarmTime(alarm.time!)
         }
-        Notifications.requestPermission()
         generateStars()
     }
     

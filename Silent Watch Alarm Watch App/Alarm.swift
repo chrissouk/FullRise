@@ -140,10 +140,6 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            let center = UNUserNotificationCenter.current()
-            center.removeAllPendingNotificationRequests()
-            center.removeAllDeliveredNotifications()
-            
             self.isRinging = false
             
             self.ringTimer?.invalidate()
