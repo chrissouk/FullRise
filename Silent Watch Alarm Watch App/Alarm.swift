@@ -40,8 +40,8 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         isRinging = true
         Task {
             await ring()
+            extendedRuntimeSession.notifyUser(hapticType: .failure)
         }
-        extendedRuntimeSession.notifyUser(hapticType: .failure)
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
@@ -116,11 +116,11 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     func stop() {
         isRinging = false
         print("Alarm stopped")
-//        if let session = session {
-//            if session.state == .running || session.state == .scheduled {
-//                session.invalidate()
-//            }
-//            self.session = nil
-//        }
+        if let session = session {
+            if session.state == .running || session.state == .scheduled {
+                session.invalidate()
+            }
+            self.session = nil
+        }
     }
 }
