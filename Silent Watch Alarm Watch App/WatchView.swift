@@ -47,12 +47,13 @@ struct WatchView: View {
             
             VStack(spacing: 8) {
                 // Moon icon (common to both views)
-                Image(systemName: "moon.fill")
-                    .font(.system(size: 32))
-                    .foregroundColor(Color(red: 0.9, green: 0.9, blue: 1.0))
+                Image("Moon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8))
                     .shadow(color: Color(red: 0.5, green: 0.6, blue: 0.9).opacity(0.8), radius: 10)
                     .shadow(color: Color(red: 0.2, green: 0.3, blue: 0.7).opacity(0.6), radius: 5)
-                    .zIndex(1)
                     
                 
                 if phone.isAlarmSet {
@@ -86,10 +87,6 @@ struct WatchView: View {
                 .foregroundColor(.white)
         }
         .padding(15)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal)
         .padding(.top, 25)
         .padding(.bottom, 7)
@@ -109,7 +106,6 @@ struct WatchView: View {
                 withAnimation(.spring()) {
                     showConfirmation = true
                     
-                    // Add haptic feedback
                     WKInterfaceDevice.current().play(.success)
                     
                     // Delay to show confirmation animation
@@ -138,7 +134,7 @@ struct WatchView: View {
                 .padding(.vertical, 12)
                 .background(nightAccentColor)
                 .foregroundColor(.white)
-                .cornerRadius(20)
+                .cornerRadius(45)
                 .shadow(color: nightAccentColor.opacity(0.4), radius: 5, x: 0, y: 2)
             }
             .buttonStyle(PlainButtonStyle())
@@ -146,10 +142,6 @@ struct WatchView: View {
             .padding(.top, 3)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal)
         .padding(.top, 6)
     }
@@ -162,7 +154,6 @@ struct WatchView: View {
         if alarm.time != nil {
             phone.setAlarmTime(alarm.time!)
         }
-        Notifications.requestPermission()
         generateStars()
     }
     
@@ -196,7 +187,6 @@ struct WatchView: View {
         withAnimation(.spring()) {
             showConfirmation = true
             
-            // Add haptic feedback
             WKInterfaceDevice.current().play(.success)
             
             // Delay to show confirmation animation

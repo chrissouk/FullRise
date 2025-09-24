@@ -80,7 +80,9 @@ class WatchCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     // Output (stop alarm)
     
     func stopAlarm() {
-        let context: [String: Any] = ["alarmTime": "", "isAlarmSet": true, "timestamp": Date().timeIntervalSince1970] /* don't change isAlarmSet yet, wait for watch's confirmation */
+        self.displayTime = ""
+        self.isAlarmSet = false
+        let context: [String: Any] = ["alarmTime": "", "isAlarmSet": false, "timestamp": Date().timeIntervalSince1970] /* don't change isAlarmSet yet, wait for watch's confirmation */
         do {
             try session.updateApplicationContext(context)
             print("Updated application context: \(session.applicationContext)")

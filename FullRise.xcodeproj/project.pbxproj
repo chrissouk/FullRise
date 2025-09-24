@@ -39,6 +39,19 @@
 		8E0B77642C8A246600B01DAF /* FullRise Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FullRise Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8EEBD4682E6828660046A986 /* Exceptions for "Progress" folder in "FullRise" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				IMG_1510.PNG,
+				IMG_1511.PNG,
+				"incoming-258CB03E-902A-4273-9415-8913A85665F1.PNG",
+				"incoming-8490D2C0-5FA3-4240-8DCD-E1367C36C928.PNG",
+			);
+			target = 8E0B77532C8A246400B01DAF /* FullRise */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8E0B77562C8A246400B01DAF /* Silent Watch Alarm */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -48,6 +61,14 @@
 		8E0B77682C8A246600B01DAF /* Silent Watch Alarm Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Silent Watch Alarm Watch App";
+			sourceTree = "<group>";
+		};
+		8EEBD4632E6828360046A986 /* Progress */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8EEBD4682E6828660046A986 /* Exceptions for "Progress" folder in "FullRise" target */,
+			);
+			path = Progress;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -73,6 +94,7 @@
 		8E0B774B2C8A246400B01DAF = {
 			isa = PBXGroup;
 			children = (
+				8EEBD4632E6828360046A986 /* Progress */,
 				8E0B77562C8A246400B01DAF /* Silent Watch Alarm */,
 				8E0B77682C8A246600B01DAF /* Silent Watch Alarm Watch App */,
 				8E0B77552C8A246400B01DAF /* Products */,
@@ -107,6 +129,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				8E0B77562C8A246400B01DAF /* Silent Watch Alarm */,
+				8EEBD4632E6828360046A986 /* Progress */,
 			);
 			name = FullRise;
 			packageProductDependencies = (
@@ -145,7 +168,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					8E0B77532C8A246400B01DAF = {
 						CreatedOnToolsVersion = 16.0;
@@ -275,6 +298,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -330,6 +354,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;

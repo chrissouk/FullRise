@@ -19,6 +19,8 @@ struct PhoneView: View {
     // Animation states
     @State private var showConfirmation = false
     @State private var stars: [Star] = []
+    @State private var showWatchHelp = false
+    @State private var stepsHeight: CGFloat = 72
     
     // Background gradient
     private let backgroundGradient = Gradient(colors: [
@@ -47,9 +49,11 @@ struct PhoneView: View {
             
             VStack(spacing: 30) {
                 // App logo/header
-                Image(systemName: "moon.fill")
-                    .font(.system(size: 70))
-                    .foregroundColor(Color(red: 0.9, green: 0.9, blue: 1.0))
+                Image("Moon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8))
                     .shadow(color: Color(red: 0.5, green: 0.6, blue: 0.9).opacity(0.8), radius: 15)
                     .shadow(color: Color(red: 0.2, green: 0.3, blue: 0.7).opacity(0.6), radius: 8)
                     .padding(.bottom, 5)
@@ -69,11 +73,82 @@ struct PhoneView: View {
                 
                 Spacer()
                 
-                // Footer
-                Text("Sync with your Apple Watch")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
-                    .padding(.bottom, 20)
+                Spacer()
+                
+                if watch.displayTime.isEmpty {
+                    VStack(spacing: 8) {
+                        // Header button (centered & fixed)
+                        HStack {
+                            Spacer()
+                            Button {
+                                withAnimation(.snappy(duration: 0.35, extraBounce: 0.12)) {
+                                    showWatchHelp.toggle()
+                                }
+                            } label: {
+                                HStack(spacing: 6) {
+                                    Text("Can't find watch app?")
+                                    Image(systemName: "chevron.down")
+                                        .imageScale(.small)
+                                        .rotationEffect(.degrees(showWatchHelp ? 180 : 0))
+                                        .animation(.snappy(duration: 0.35, extraBounce: 0.12), value: showWatchHelp)
+                                }
+                            }
+                            Spacer()
+                        }
+
+                        // Fixed-height container so nothing else moves
+                        ZStack(alignment: .topLeading) {
+                            // Invisible measurer to lock in the natural expanded height
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("→ Open the Apple Watch app")
+                                Text("→ Scroll to the bottom")
+                                Text("→ Tap Install next to FullRise")
+                            }
+                            .opacity(0)
+                            .background(
+                                GeometryReader { proxy in
+                                    Color.clear
+                                        .onAppear { stepsHeight = proxy.size.height }
+                                        .onChange(of: proxy.size.height) {_, newHeight in
+                                            stepsHeight = newHeight
+                                        }
+
+                                }
+                            )
+
+                            // Animated content (only affects its own space)
+                            if showWatchHelp {
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Button { withAnimation { showWatchHelp = false } } label: {
+                                        Text("→ Open the Apple Watch app")
+                                            .contentTransition(.opacity)
+                                    }
+                                    Button { withAnimation { showWatchHelp = false } } label: {
+                                        Text("→ Scroll to the bottom")
+                                            .contentTransition(.opacity)
+                                    }
+                                    Button { withAnimation { showWatchHelp = false } } label: {
+                                        Text("→ Tap Install next to FullRise")
+                                            .contentTransition(.opacity)
+                                    }
+                                }
+                                .transition(.asymmetric(
+                                    insertion: .opacity.combined(with: .scale(scale: 0.98, anchor: .top)),
+                                    removal: .opacity.combined(with: .scale(scale: 0.98, anchor: .top))
+                                ))
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: stepsHeight) // keeps surrounding layout fixed
+                        .clipped()
+                    }
+                    .animation(.snappy(duration: 0.35, extraBounce: 0.12), value: showWatchHelp)
+                    .font(.footnote)
+                    .foregroundColor(nightAccentColor)
+                    .padding(.bottom, 50)
+
+                }
+                
             }
             .padding()
         }
@@ -138,10 +213,6 @@ struct PhoneView: View {
         }
         .frame(width: 310, height: 240)
         .padding(.vertical, 40)
-        .background(
-            RoundedRectangle(cornerRadius: 25)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal, 20)
     }
     
@@ -162,18 +233,9 @@ struct PhoneView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white.opacity(0.7))
                 .padding(.horizontal)
-            
-            Image(systemName: "arrow.down.circle")
-                .font(.system(size: 30))
-                .foregroundColor(nightAccentColor)
-                .padding(.top, 10)
         }
         .frame(width: 310, height: 240)
         .padding(.vertical, 40)
-        .background(
-            RoundedRectangle(cornerRadius: 25)
-                .fill(Color(red: 0.2, green: 0.2, blue: 0.3).opacity(0.7))
-        )
         .padding(.horizontal, 20)
     }
     

@@ -14,9 +14,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
     
     @Published var displayTime: String = ""
     @Published var isAlarmSet: Bool = false
-    
     let session = WCSession.default
-    
     var alarm: Alarm = Alarm()
     
     
@@ -35,6 +33,7 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
+    
     // Input (stop alarm)
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
@@ -43,20 +42,19 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
         
         DispatchQueue.main.async {
             self.displayTime = ""
+//            self.alarm.startSession(at: Date())
             
-            if self.displayTime == "" {
-                self.isAlarmSet = false
-                self.alarm.stop()
-                
-                // confirm alarm has been stopped
-                let context = ["alarmTime:": "", "isAlarmSet": false, "timestamp": Date().timeIntervalSince1970]
-                do {
-                    try session.updateApplicationContext(context)
-                    print("Updated application context: \(context)")
-                } catch {
-                    print("Error updating application context: \(error)")
-                }
-            }
+            self.isAlarmSet = false
+            self.alarm.stop()
+            
+            // confirm alarm has been stopped
+//            let context = ["alarmTime:": "", "isAlarmSet": false, "timestamp": Date().timeIntervalSince1970]
+//            do {
+//                try session.updateApplicationContext(context)
+//                print("Updated application context: \(context)")
+//            } catch {
+//                print("Error updating application context: \(error)")
+//            }
         }
         
     }
@@ -88,4 +86,6 @@ class PhoneCommunicator: NSObject, WCSessionDelegate, ObservableObject {
             print("Error updating application context: \(error.localizedDescription)")
         }
     }
+    
+    
 }
