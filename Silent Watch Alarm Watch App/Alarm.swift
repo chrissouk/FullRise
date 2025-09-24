@@ -99,7 +99,6 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         }
     }
     
-    // Async ring method: execution pauses here until stopped
     func ring() async {
         isRinging = true
         while self.isRinging {
@@ -117,7 +116,7 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         isRinging = false
         print("Alarm stopped")
         if let session = session {
-            if /*session.state == .running || */ session.state == .scheduled {
+            if session.state == .scheduled {
                 session.invalidate()
                 self.session = nil
             }
