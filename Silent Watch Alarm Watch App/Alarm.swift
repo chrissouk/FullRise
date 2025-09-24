@@ -101,13 +101,16 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     func ring() async {
         isRinging = true
-        while self.isRinging {
+        let limit = 28.0 * 60.0
+        var elapsed = 0.0
+        while self.isRinging && elapsed < limit {
             let randomHaptic = hapticTypes.randomElement() ?? .notification
             WKInterfaceDevice.current().play(randomHaptic)
             
             let randomRange = intervalRanges.randomElement() ?? (0.5, 1.0)
             let randomInterval = Double.random(in: randomRange.min...randomRange.max)
             
+            elapsed += randomInterval
             try? await Task.sleep(nanoseconds: UInt64(randomInterval * 1_000_000_000))
         }
     }
