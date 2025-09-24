@@ -100,9 +100,12 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     }
     
     func ring() async {
+        
         isRinging = true
-        let limit = 28.0 * 60.0
-        var elapsed = 0.0
+        
+        let limit = 28.0 * 60.0                 // if alarm is not stopped after 28 minutes of ringing,
+        var elapsed = 0.0                       // stop execution and allow .notifyUser() to be called,
+                                                // preventing background activity notices.
         while self.isRinging && elapsed < limit {
             let randomHaptic = hapticTypes.randomElement() ?? .notification
             WKInterfaceDevice.current().play(randomHaptic)
@@ -113,6 +116,7 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
             elapsed += randomInterval
             try? await Task.sleep(nanoseconds: UInt64(randomInterval * 1_000_000_000))
         }
+        
     }
     
     func stop() {
