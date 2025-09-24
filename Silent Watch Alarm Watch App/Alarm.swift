@@ -10,29 +10,25 @@ import WatchKit
 import UserNotifications
 import WatchConnectivity
 
-
 class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
-    // Fields
+    // MARK: - Fields
     
     var time: Date? = nil
-    
-    var ringTimer: Timer?
-    
     var isRinging: Bool = false
-    
     private let hapticTypes: [WKHapticType] = [.failure, .notification, .success, .retry]
     private let intervalRanges: [(min: Double, max: Double)] = [
-        (0.1, 0.3),  // Quick bursts
-        (0.5, 0.8),  // Medium pace
-        (1.0, 1.5),  // Slower rhythm
-        (0.3, 0.6)   // Variable medium
+        (0.1, 0.3),
+        (0.5, 0.8),
+        (1.0, 1.5),
+        (0.3, 0.6)
     ]
-
-    // WKExtendedRuntime Handling
     
+    // WKExtendedRuntimeSession
     var session: WKExtendedRuntimeSession?
 
+    // MARK: - Session Handling
+    
     func startSession(at _time: Date) {
         session = WKExtendedRuntimeSession()
         session?.delegate = self
@@ -41,9 +37,11 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("Session started")
-//        extendedRuntimeSession.notifyUser(hapticType: .notification, repeatHandler: nil)
         isRinging = true
-        ring()
+        Task {
+            await ring()
+        }
+        extendedRuntimeSession.notifyUser(hapticType: .failure)
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
@@ -56,105 +54,73 @@ class Alarm: NSObject, ObservableObject, WKExtendedRuntimeSessionDelegate {
         print("Session invalidated with reason: \(reason)")
     }
     
-    
-    // Time preparation
+    // MARK: - Time Preparation
     
     public static func getPreviousAlarmTime() -> Date {
         guard let previousAlarm = UserDefaults.standard.object(forKey: "previousAlarm") as? Date else {
-            /* If there's not previous alarm, default to the nearest 0800 */
             var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
             components.hour = 8
             components.minute = 0
-            return Calendar.current.date(from: components) ?? Date() // Fallback to current date
+            return Calendar.current.date(from: components) ?? Date()
         }
         return previousAlarm
     }
     
     public static func fix(date: Date) -> Date {
-    /* Reset the date so it keeps its the time, but changes the date to be within the next 24 hours */
-        
         let now = Date()
-        print("Now: \(now)")
-        
-        // Extract components from the selected date
         let brokenComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
-        print(brokenComponents)
-        
-        // Create a new date with today's date but with the selected time
         var fixedComponents = Calendar.current.dateComponents([.year, .month, .day], from: now)
         fixedComponents.hour = brokenComponents.hour
         fixedComponents.minute = brokenComponents.minute
-        print(fixedComponents)
         
-        // Create a date for the selected time today
-        let validationDate = Calendar.current.date(from: fixedComponents)!
-        print(validationDate)
-        
-        // Check if the selected time is in the past
+        var validationDate = Calendar.current.date(from: fixedComponents)!
         if validationDate < now {
-            // If the selected time is in the past, set it for the next day
             fixedComponents.day! += 1
+            validationDate = Calendar.current.date(from: fixedComponents)!
         }
-        
-        print(Calendar.current.date(from: fixedComponents)!)
-        return Calendar.current.date(from: fixedComponents)!
-        
+        return validationDate
     }
     
-    
-    // Alarm handling
+    // MARK: - Alarm Handling
     
     func set(for _time: Date) {
         time = _time
         UserDefaults.standard.set(_time, forKey: "previousAlarm")
-        
         print("Alarm set for \(_time)")
         
         let timeInterval = _time.timeIntervalSince(Date())
-        
         if timeInterval <= 0 {
             print("Alarm is for now or in the past")
-            ring()
+            Task {
+                await ring()
+            }
         } else {
             startSession(at: _time)
         }
     }
     
-    func ring() {
-        let randomHaptic = hapticTypes.randomElement() ?? .failure
-        WKInterfaceDevice.current().play(randomHaptic)
-        
-        let randomRange = self.intervalRanges.randomElement() ?? (0.5, 1.0)
-        let randomInterval = Double.random(in: randomRange.min...randomRange.max)
-        
-        if ringTimer == nil && isRinging {
-            ringTimer = Timer.scheduledTimer(withTimeInterval: randomInterval, repeats: false) { [weak self] _ in
-                guard let self = self, self.isRinging else { return }
-                self.ringTimer = nil
-                self.ring()
-            }
+    // Async ring method: execution pauses here until stopped
+    func ring() async {
+        isRinging = true
+        while self.isRinging {
+            let randomHaptic = hapticTypes.randomElement() ?? .notification
+            WKInterfaceDevice.current().play(randomHaptic)
+            
+            let randomRange = intervalRanges.randomElement() ?? (0.5, 1.0)
+            let randomInterval = Double.random(in: randomRange.min...randomRange.max)
+            
+            try? await Task.sleep(nanoseconds: UInt64(randomInterval * 1_000_000_000))
         }
     }
-
-    func stop() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            self.isRinging = false
-            
-            self.ringTimer?.invalidate()
-            self.ringTimer = nil
-            
-            print("Alarm stopped")
-            
-            if let session = self.session {
-                if session.state == .running || session.state == .scheduled {
-                    session.invalidate()
-                }
-                self.session = nil
-            }
-        }
-    }
-
     
+    func stop() {
+        isRinging = false
+        print("Alarm stopped")
+//        if let session = session {
+//            if session.state == .running || session.state == .scheduled {
+//                session.invalidate()
+//            }
+//            self.session = nil
+//        }
+    }
 }
