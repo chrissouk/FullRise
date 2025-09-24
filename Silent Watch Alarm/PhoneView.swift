@@ -109,7 +109,10 @@ struct PhoneView: View {
                                 GeometryReader { proxy in
                                     Color.clear
                                         .onAppear { stepsHeight = proxy.size.height }
-                                        .onChange(of: proxy.size.height) { stepsHeight = $0 }
+                                        .onChange(of: proxy.size.height) {_, newHeight in
+                                            stepsHeight = newHeight
+                                        }
+
                                 }
                             )
 
