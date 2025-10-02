@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E0B77652C8A246600B01DAF /* FullRise Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8E0B77642C8A246600B01DAF /* FullRise Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8E0B77652C8A246600B01DAF /* SureRise Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8E0B77642C8A246600B01DAF /* SureRise Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,7 +27,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				8E0B77652C8A246600B01DAF /* FullRise Watch App.app in Embed Watch Content */,
+				8E0B77652C8A246600B01DAF /* SureRise Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,12 +35,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8E0B77542C8A246400B01DAF /* FullRise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FullRise.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E0B77642C8A246600B01DAF /* FullRise Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FullRise Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0B77542C8A246400B01DAF /* SureRise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SureRise.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0B77642C8A246600B01DAF /* SureRise Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SureRise Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8EEBD4682E6828660046A986 /* Exceptions for "Progress" folder in "FullRise" target */ = {
+		8EEBD4682E6828660046A986 /* Exceptions for "Progress" folder in "SureRise" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				IMG_1510.PNG,
@@ -48,7 +48,7 @@
 				"incoming-258CB03E-902A-4273-9415-8913A85665F1.PNG",
 				"incoming-8490D2C0-5FA3-4240-8DCD-E1367C36C928.PNG",
 			);
-			target = 8E0B77532C8A246400B01DAF /* FullRise */;
+			target = 8E0B77532C8A246400B01DAF /* SureRise */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -66,7 +66,7 @@
 		8EEBD4632E6828360046A986 /* Progress */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				8EEBD4682E6828660046A986 /* Exceptions for "Progress" folder in "FullRise" target */,
+				8EEBD4682E6828660046A986 /* Exceptions for "Progress" folder in "SureRise" target */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -104,8 +104,8 @@
 		8E0B77552C8A246400B01DAF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8E0B77542C8A246400B01DAF /* FullRise.app */,
-				8E0B77642C8A246600B01DAF /* FullRise Watch App.app */,
+				8E0B77542C8A246400B01DAF /* SureRise.app */,
+				8E0B77642C8A246600B01DAF /* SureRise Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,9 +113,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8E0B77532C8A246400B01DAF /* FullRise */ = {
+		8E0B77532C8A246400B01DAF /* SureRise */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise" */;
+			buildConfigurationList = 8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "SureRise" */;
 			buildPhases = (
 				8E0B77502C8A246400B01DAF /* Sources */,
 				8E0B77512C8A246400B01DAF /* Frameworks */,
@@ -131,16 +131,16 @@
 				8E0B77562C8A246400B01DAF /* Silent Watch Alarm */,
 				8EEBD4632E6828360046A986 /* Progress */,
 			);
-			name = FullRise;
+			name = SureRise;
 			packageProductDependencies = (
 			);
 			productName = "Silent Watch Alarm";
-			productReference = 8E0B77542C8A246400B01DAF /* FullRise.app */;
+			productReference = 8E0B77542C8A246400B01DAF /* SureRise.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8E0B77632C8A246600B01DAF /* FullRise Watch App */ = {
+		8E0B77632C8A246600B01DAF /* SureRise Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise Watch App" */;
+			buildConfigurationList = 8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "SureRise Watch App" */;
 			buildPhases = (
 				8E0B77602C8A246600B01DAF /* Sources */,
 				8E0B77612C8A246600B01DAF /* Frameworks */,
@@ -153,11 +153,11 @@
 			fileSystemSynchronizedGroups = (
 				8E0B77682C8A246600B01DAF /* Silent Watch Alarm Watch App */,
 			);
-			name = "FullRise Watch App";
+			name = "SureRise Watch App";
 			packageProductDependencies = (
 			);
 			productName = "Silent Watch Alarm Watch App";
-			productReference = 8E0B77642C8A246600B01DAF /* FullRise Watch App.app */;
+			productReference = 8E0B77642C8A246600B01DAF /* SureRise Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -178,7 +178,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "FullRise" */;
+			buildConfigurationList = 8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "SureRise" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -192,8 +192,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8E0B77532C8A246400B01DAF /* FullRise */,
-				8E0B77632C8A246600B01DAF /* FullRise Watch App */,
+				8E0B77532C8A246400B01DAF /* SureRise */,
+				8E0B77632C8A246600B01DAF /* SureRise Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -235,7 +235,7 @@
 /* Begin PBXTargetDependency section */
 		8E0B77672C8A246600B01DAF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8E0B77632C8A246600B01DAF /* FullRise Watch App */;
+			target = 8E0B77632C8A246600B01DAF /* SureRise Watch App */;
 			targetProxy = 8E0B77662C8A246600B01DAF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -366,28 +366,25 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Silent Watch Alarm Watch App/Silent Watch Alarm Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Silent Watch Alarm Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=watchos*]" = K94U358ZY5;
+				DEVELOPMENT_TEAM = K94U358ZY5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Silent-Watch-Alarm-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = FullRise;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.FullRise;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.SureRise;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.FullRise.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.SureRise.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "FullRise WatchApp | Ad Hoc";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -404,28 +401,25 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Silent Watch Alarm Watch App/Silent Watch Alarm Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Silent Watch Alarm Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=watchos*]" = K94U358ZY5;
+				DEVELOPMENT_TEAM = K94U358ZY5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Silent-Watch-Alarm-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = FullRise;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.FullRise;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = chrissouk.SureRise;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.FullRise.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.SureRise.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = "FullRise WatchApp | Ad Hoc";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -443,15 +437,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Silent Watch Alarm/Silent Watch Alarm.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Silent Watch Alarm/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K94U358ZY5;
+				DEVELOPMENT_TEAM = K94U358ZY5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = FullRise;
+				INFOPLIST_KEY_CFBundleDisplayName = SureRise;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -464,10 +457,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.FullRise;
+				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.SureRise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "FullRise | Ad Hoc";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -482,15 +474,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Silent Watch Alarm/Silent Watch Alarm.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Silent Watch Alarm/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K94U358ZY5;
+				DEVELOPMENT_TEAM = K94U358ZY5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = FullRise;
+				INFOPLIST_KEY_CFBundleDisplayName = SureRise;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -503,10 +494,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.FullRise;
+				PRODUCT_BUNDLE_IDENTIFIER = chrissouk.SureRise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "FullRise | Ad Hoc";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -518,7 +508,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "FullRise" */ = {
+		8E0B774F2C8A246400B01DAF /* Build configuration list for PBXProject "SureRise" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E0B77722C8A246700B01DAF /* Debug */,
@@ -527,7 +517,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise Watch App" */ = {
+		8E0B77742C8A246700B01DAF /* Build configuration list for PBXNativeTarget "SureRise Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E0B77752C8A246700B01DAF /* Debug */,
@@ -536,7 +526,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "FullRise" */ = {
+		8E0B77782C8A246700B01DAF /* Build configuration list for PBXNativeTarget "SureRise" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E0B77792C8A246700B01DAF /* Debug */,

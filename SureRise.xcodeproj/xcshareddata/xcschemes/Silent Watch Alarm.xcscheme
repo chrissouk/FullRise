@@ -15,24 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8E0B77632C8A246600B01DAF"
-               BuildableName = "FullRise Watch App.app"
-               BlueprintName = "FullRise Watch App"
-               ReferencedContainer = "container:FullRise.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8E0B77532C8A246400B01DAF"
-               BuildableName = "FullRise.app"
-               BlueprintName = "FullRise"
-               ReferencedContainer = "container:FullRise.xcodeproj">
+               BuildableName = "SureRise.app"
+               BlueprintName = "SureRise"
+               ReferencedContainer = "container:SureRise.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -58,10 +44,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8E0B77632C8A246600B01DAF"
-            BuildableName = "FullRise Watch App.app"
-            BlueprintName = "FullRise Watch App"
-            ReferencedContainer = "container:FullRise.xcodeproj">
+            BlueprintIdentifier = "8E0B77532C8A246400B01DAF"
+            BuildableName = "SureRise.app"
+            BlueprintName = "SureRise"
+            ReferencedContainer = "container:SureRise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -75,10 +61,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8E0B77632C8A246600B01DAF"
-            BuildableName = "FullRise Watch App.app"
-            BlueprintName = "FullRise Watch App"
-            ReferencedContainer = "container:FullRise.xcodeproj">
+            BlueprintIdentifier = "8E0B77532C8A246400B01DAF"
+            BuildableName = "SureRise.app"
+            BlueprintName = "SureRise"
+            ReferencedContainer = "container:SureRise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
