@@ -1,4 +1,4 @@
-# FullRise - Silent Watch Alarm
+# SureRise - Silent Watch Alarm
 
 Never scroll at night again.
 
